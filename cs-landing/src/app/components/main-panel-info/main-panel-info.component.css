@@ -1,0 +1,11 @@
+.service-name {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.configure-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
