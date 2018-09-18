@@ -3,10 +3,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>bs-service</artifactId>
+    <artifactId>cs-service</artifactId>
     <packaging>jar</packaging>
 
-    <name>service</name>
+    <name>cs-service</name>
     <description>A service layer for the booking-service project</description>
 
     <parent>
