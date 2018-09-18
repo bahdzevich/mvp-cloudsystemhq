@@ -10,16 +10,16 @@
     <description>A service layer for the booking-service project</description>
 
     <parent>
-        <groupId>com.booking-service</groupId>
-        <artifactId>bs-parent</artifactId>
+        <groupId>com.cloudsystemhq</groupId>
+        <artifactId>cs-parent</artifactId>
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
     </parent>
 
     <dependencies>
         <dependency>
-            <groupId>com.booking-service</groupId>
-            <artifactId>bs-repository</artifactId>
+            <groupId>com.cloudsystemhq</groupId>
+            <artifactId>cs-repository</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- Map struct -->
