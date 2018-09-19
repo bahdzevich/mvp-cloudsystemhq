@@ -1,7 +1,9 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 
+import {JwtInterceptor} from "./auth/interceptors/jwt-interceptor.service";
+import {CurrentUserService} from "./auth/services/current-user.service";
 import {AuthService} from "./auth/services/auth.service";
 
 @NgModule({
@@ -10,7 +12,10 @@ import {AuthService} from "./auth/services/auth.service";
     HttpClientModule
   ],
   providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
+    CurrentUserService,
     AuthService
   ]
 })
-export class CoreModule { }
+export class CoreModule {
+}
