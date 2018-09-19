@@ -51,13 +51,13 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     @Value("${security.jwt.resource-ids}")
     private String RESOURCE_IDs;
 
-    private TokenStore tokenStore;
+    private final TokenStore tokenStore;
 
-    private JwtAccessTokenConverter accessTokenConverter;
+    private final JwtAccessTokenConverter accessTokenConverter;
 
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    private DefaultTokenServices tokenServices;
+    private final DefaultTokenServices tokenServices;
 
     @Autowired
     public AuthorizationServerConfiguration(

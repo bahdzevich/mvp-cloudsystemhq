@@ -1,9 +1,12 @@
 package com.cloudsystemhq.model.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "ROLE")
@@ -16,7 +19,7 @@ public class Role {
     private Long id;
     private String name;
 
-/*    @JsonIgnore
+    @JsonIgnore
     @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>();*/
+    private Set<Customer> customers = new HashSet<>();
 }

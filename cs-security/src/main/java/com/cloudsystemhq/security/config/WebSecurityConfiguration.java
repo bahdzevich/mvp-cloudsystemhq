@@ -1,5 +1,7 @@
 package com.cloudsystemhq.security.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -38,19 +39,23 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Value("${security.jwt.validity.refresh-token}")
     private int REFRESH_TOKEN_VALIDITY_SECONDS;
 
-    @Value("${security.bcrypt-workload}")
-    private int BCRYPT_WORKLOAD;
-
     private final UserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
-    public WebSecurityConfiguration(UserDetailsService userDetailsService) {
+
+    @Autowired
+    public WebSecurityConfiguration(
+            @Qualifier("customerDetailsService")
+                    UserDetailsService userDetailsService,
+            PasswordEncoder passwordEncoder) {
         this.userDetailsService = userDetailsService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
+                .passwordEncoder(passwordEncoder);
     }
 
     @Override
@@ -71,11 +76,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(BCRYPT_WORKLOAD);
-    }
-
     /**
      * To enable the resource server to decode access tokens
      * an {@link JwtAccessTokenConverter} bean must be used by both servers.
@@ -83,7 +83,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      * @return {@link JwtAccessTokenConverter}
      */
     @Bean(name = "jwtAccessTokenConverter")
-    JwtAccessTokenConverter jwtAccessTokenConverter() {
+    public JwtAccessTokenConverter jwtAccessTokenConverter() {
         JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
         jwtAccessTokenConverter.setSigningKey(SIGN_IN_KEY);
         return jwtAccessTokenConverter;
@@ -95,7 +95,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
      * @return {@link JwtTokenStore}
      */
     @Bean
-    TokenStore tokenStore() {
+    public TokenStore tokenStore() {
         return new JwtTokenStore(jwtAccessTokenConverter());
     }
 

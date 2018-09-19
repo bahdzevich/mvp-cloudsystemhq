@@ -8,10 +8,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "USER")
+@Table(name = "CUSTOMER")
 @Data
 @NoArgsConstructor
-public class User {
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,10 +22,12 @@ public class User {
     private String password;
     private Boolean confirmed;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.REMOVE)
     @JoinTable(
-            name = "USER_ROLE",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            name = "CUSTOMER_ROLE",
+            joinColumns = @JoinColumn(name = "customer_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles = new HashSet<>();
 }
