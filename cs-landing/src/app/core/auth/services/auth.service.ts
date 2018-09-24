@@ -15,7 +15,7 @@ import {CurrentUserService} from "./current-user.service";
 @Injectable()
 export class AuthService {
 
-  private static readonly REGISTRATE_URL = 'api/url-for-registration';
+  private static readonly REGISTRATE_URL = 'api/user';
 
   private static readonly LOGIN_URL = 'api/url-for-login';
 
