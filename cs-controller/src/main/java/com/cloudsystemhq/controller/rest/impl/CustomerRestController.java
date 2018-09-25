@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api/user", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/api/customers", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class CustomerRestController
         extends AbstractCrudRestController<Customer, Customer, Long, ICustomerService> {
 

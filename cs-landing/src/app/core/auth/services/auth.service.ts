@@ -1,4 +1,5 @@
 import {Injectable} from '@angular/core';
+import {HttpHeaders} from '@angular/common/http';
 import {HttpClient, HttpResponse} from "@angular/common/http";
 
 import {Observable} from "rxjs/internal/Observable";
@@ -25,19 +26,26 @@ export class AuthService {
     private currentUserService: CurrentUserService
   ) { }
 
-  private authResponseHandler: OperatorFunction<HttpResponse<UserDTO>, User> = map((resp: HttpResponse<UserDTO>) => {
-    localStorage.setItem('token', resp.headers.get('token'));
-    let user: User = User.fromDTO(resp.body);
-    this.currentUserService.next(user);
-    return user;
+  private authResponseHandler: OperatorFunction<HttpResponse<Token>, any> = map((resp: HttpResponse<Token>) => {
+    localStorage.setItem('token', JSON.stringify(resp.body));
+    return null;
   });
 
   public registrate(user: User): Observable<any> {
     return this.http.post<HttpResponse<UserDTO>>(AuthService.REGISTRATE_URL, user);
   }
 
-  public login(user: User): Observable<User> {
-    return this.http.post(AuthService.LOGIN_URL, user)
+  public login(user: User): Observable<any> {
+    const httpOptions = {
+    headers: new HttpHeaders({
+        'Authorization': 'Basic dHJ1c3RlZC1hcHA6c2VjcmV0'
+      })
+    };
+    let payload=new FormData();
+    payload.append('password', user.password);
+    payload.append('username', user.email);
+    payload.append('grant_type', 'password');
+    return this.http.post(AuthService.LOGIN_URL, payload, httpOptions)
       .pipe(this.authResponseHandler)
   }
 

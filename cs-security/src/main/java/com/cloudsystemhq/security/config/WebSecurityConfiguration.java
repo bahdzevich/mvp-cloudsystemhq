@@ -65,8 +65,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and()
         .httpBasic().realmName(SECURITY_REALM)
         .and()
-        .authorizeRequests().anyRequest().authenticated()
-        .and()
         .csrf().disable();
   }
 
