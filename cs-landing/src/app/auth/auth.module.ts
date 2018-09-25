@@ -8,6 +8,7 @@ import {ButtonsModule} from '@progress/kendo-angular-buttons';
 import {AuthComponent} from './auth.component';
 import {RegistrationComponent} from './component/registration/registration.component';
 import {SharedModule} from "../shared/shared.module";
+import { LoginComponent } from './component/login/login.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import {SharedModule} from "../shared/shared.module";
   ],
   declarations: [
     AuthComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    LoginComponent
   ],
   exports: [
     AuthComponent

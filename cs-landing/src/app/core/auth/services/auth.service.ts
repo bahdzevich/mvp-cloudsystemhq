@@ -8,6 +8,7 @@ import {map} from "rxjs/operators";
 import {User} from "../models/user";
 import {UserDTO} from "../models/user-dto";
 import {CurrentUserService} from "./current-user.service";
+import {Token} from "../models/token";
 
 /**
  * Service for registration and authorisation.
@@ -15,9 +16,9 @@ import {CurrentUserService} from "./current-user.service";
 @Injectable()
 export class AuthService {
 
-  private static readonly REGISTRATE_URL = 'api/user';
+  private static readonly REGISTRATE_URL = 'api/customers';
 
-  private static readonly LOGIN_URL = 'api/url-for-login';
+  private static readonly LOGIN_URL = 'api/oauth/token';
 
   constructor(
     private http: HttpClient,
@@ -31,9 +32,8 @@ export class AuthService {
     return user;
   });
 
-  public registrate(user: User): Observable<User> {
-    return this.http.post<HttpResponse<UserDTO>>(AuthService.REGISTRATE_URL, user)
-      .pipe(this.authResponseHandler);
+  public registrate(user: User): Observable<any> {
+    return this.http.post<HttpResponse<UserDTO>>(AuthService.REGISTRATE_URL, user);
   }
 
   public login(user: User): Observable<User> {

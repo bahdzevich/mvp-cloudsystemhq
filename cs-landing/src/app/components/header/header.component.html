@@ -19,10 +19,11 @@
 
   <ul class="nav navbar-nav ml-auto">
     <li><a class="nav-link" href="#" (click)="showRegistrationDialog()">Sign Up</a></li>
-    <li><a class="nav-link" href="#">Login</a></li>
+    <li><a class="nav-link" href="#" (click)="showLoginDialog()">Login</a></li>
   </ul>
 </nav>
 
 <app-auth
   [(registrationDisplay)]="registrationDisplay"
+  [(loginDisplay)]="loginDisplay"
 ></app-auth>

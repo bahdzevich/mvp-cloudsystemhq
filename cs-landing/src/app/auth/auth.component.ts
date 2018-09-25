@@ -9,12 +9,13 @@ import {AuthService} from "../core/auth/services/auth.service";
 })
 export class AuthComponent implements OnInit {
 
-  /**
-   * Required param for correct work.
-   */
   @Input() public registrationDisplay: boolean;
 
   @Output() public registrationDisplayChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Input() public loginDisplay: boolean;
+
+  @Output() public loginDisplayChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
     private authService: AuthService
@@ -30,6 +31,18 @@ export class AuthComponent implements OnInit {
 
   public registrate(user: User): void {
     this.authService.registrate(user)
-      .subscribe(() => this.registrationDisplay = false);
+      .subscribe(() => this.closeRegistrationDialog());
   }
+
+  public closeLoginDialog(): void {
+    this.loginDisplay = false;
+    this.loginDisplayChange.emit(false);
+  }
+
+
+  public login(user: User): void {
+    this.authService.login(user)
+      .subscribe(() => this.closeLoginDialog());
+  }
+
 }

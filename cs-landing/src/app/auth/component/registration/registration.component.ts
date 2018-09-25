@@ -42,6 +42,6 @@ export class RegistrationComponent implements OnInit {
       this.regForm.get('email').value,
       this.regForm.get('password').value
     ));
-
   }
+
 }
