@@ -4,7 +4,7 @@ import {HttpClient, HttpResponse} from "@angular/common/http";
 
 import {Observable} from "rxjs/internal/Observable";
 import {OperatorFunction} from "rxjs/interfaces";
-import {map} from "rxjs/operators";
+import {finalize, map} from "rxjs/operators";
 
 import {User} from "../models/user";
 import {UserDTO} from "../models/user-dto";
@@ -27,7 +27,7 @@ export class AuthService {
   ) { }
 
   private authResponseHandler: OperatorFunction<HttpResponse<Token>, any> = map((resp: HttpResponse<Token>) => {
-    localStorage.setItem('token', JSON.stringify(resp.body));
+    localStorage.setItem('token', JSON.stringify(resp));
     return null;
   });
 
@@ -47,6 +47,7 @@ export class AuthService {
     payload.append('grant_type', 'password');
     return this.http.post(AuthService.LOGIN_URL, payload, httpOptions)
       .pipe(this.authResponseHandler)
+      .pipe(finalize(() => window.open("https://mangaclub.ru/", "_self")));
   }
 
 }

@@ -31,7 +31,9 @@ export class AuthComponent implements OnInit {
 
   public registrate(user: User): void {
     this.authService.registrate(user)
-      .subscribe(() => this.closeRegistrationDialog());
+      .subscribe(
+        () => this.closeRegistrationDialog(),
+        () => this.closeRegistrationDialog());
   }
 
   public closeLoginDialog(): void {
@@ -39,10 +41,10 @@ export class AuthComponent implements OnInit {
     this.loginDisplayChange.emit(false);
   }
 
-
   public login(user: User): void {
     this.authService.login(user)
-      .subscribe(() => this.closeLoginDialog());
+      .subscribe(
+        () => this.closeLoginDialog(),
+        () => this.closeRegistrationDialog());
   }
-
 }
