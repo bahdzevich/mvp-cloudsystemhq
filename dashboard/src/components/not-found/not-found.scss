@@ -1,0 +1,31 @@
+@import "../../base/styles/vars.scss";
+
+.not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: rem(500);
+
+  svg {
+    width: rem(54);
+    height: rem(54);
+    margin-bottom: rem(24);
+  }
+
+  &__text {
+    max-width: 100%;
+    text-align: center;
+
+    a {
+      color: $blue;
+      text-decoration: underline;
+
+      &:active,
+      &:hover {
+        color: $blueLight;
+        text-decoration: none;
+      }
+    }
+  }
+}

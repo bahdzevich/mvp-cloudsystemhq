@@ -1,0 +1,59 @@
+@import "../../base/styles/vars.scss";
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: rem(54);
+  z-index: 5;
+  overflow: hidden;
+  background-color: rgba(238, 237, 237, 0.5);
+
+  &__content {
+    position: relative;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1;
+  }
+
+  &__items {
+    display: flex;
+    align-items: center;
+  }
+
+  &__item {
+    margin-right: rem(32);
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+
+    &--active {
+      color: $blueLight;
+      text-decoration: none;
+    }
+  }
+
+  &__logout {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: rem(32);
+    height: rem(32);
+    border-radius: 50%;
+    background-color: $blue;
+
+    svg {
+      width: rem(18);
+      height: rem(18);
+      fill: #fff;
+    }
+
+    &:hover {
+      background-color: $blueLight;
+    }
+  }
+}
