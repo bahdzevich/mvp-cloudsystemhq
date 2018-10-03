@@ -37,6 +37,30 @@
     }
   }
 
+  &__btns {
+    display: flex;
+    align-items: center;
+  }
+
+  &__lang-wrap {
+    display: flex;
+    align-items: baseline;
+    margin-right: rem(32);
+  }
+
+  &__lang-item {
+    margin-right: rem(8);
+
+    &--active {
+      color: $blueLight;
+      text-decoration: none;
+    }
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+
   &__logout {
     display: inline-flex;
     justify-content: center;
