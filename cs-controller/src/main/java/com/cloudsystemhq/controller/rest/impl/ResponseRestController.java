@@ -8,7 +8,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/question/{questionId:[0-9]+}/response", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -29,8 +29,8 @@ public class ResponseRestController{
     }
 
     @GetMapping
-    public ResponseEntity<Set<Response>> findAll(@PathVariable(value = "questionId") Long questionId) {
-        Set<Response> responses = responseService.getResponsesByQuestionId(questionId);
+    public ResponseEntity<List<Response>> findAll(@PathVariable(value = "questionId") Long questionId) {
+        List<Response> responses = responseService.getResponsesByQuestionId(questionId);
         return ResponseEntity.ok(responses);
     }
 

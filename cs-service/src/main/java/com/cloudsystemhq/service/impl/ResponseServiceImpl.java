@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import java.util.Set;
+import java.util.List;
 
 @Service
 public class ResponseServiceImpl implements IResponseService{
@@ -27,9 +27,10 @@ public class ResponseServiceImpl implements IResponseService{
     }
 
     @Override
-    public Set<Response> getResponsesByQuestionId(Long questionId) {
+    public List<Response> getResponsesByQuestionId(Long questionId) {
         Assert.notNull(questionId, "Question id is null.");
-        return responseRepository.findResponsesByQuestionId(questionId);
+        return responseRepository.findResponsesByQuestionId(questionId)
+                .orElseThrow(() -> new ResourceNotFoundException("No Responses with questionId=" + questionId + " found"));
     }
 
     @Override

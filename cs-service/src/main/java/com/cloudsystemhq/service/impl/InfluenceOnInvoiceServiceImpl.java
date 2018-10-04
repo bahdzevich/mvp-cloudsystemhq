@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.List;
+
 @Service
 public class InfluenceOnInvoiceServiceImpl implements IInfluenceOnInvoiceService{
 
@@ -31,6 +33,11 @@ public class InfluenceOnInvoiceServiceImpl implements IInfluenceOnInvoiceService
             responseRepository.save(response);
             return influenceOnInvoice;  // id == null, because returned object not persisted yet
         }).orElseThrow(() -> new ResourceNotFoundException("ResponseId " + responseId + " not found"));
+    }
+
+    @Override
+    public List<InfluenceOnInvoice> findAll() {
+        return influenceRepository.findAll();
     }
 
     @Override

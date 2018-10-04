@@ -84,7 +84,12 @@ public class QuestionServiceImpl implements IQuestionService{
                     .addAll(
                             updatedQuestion.getResponses()                             // Without setting a Question
                             .stream()                                                  // 'question' column in Response object
-                            .peek(response -> response.setQuestion(persistedQuestion)) // violates not-null constraint
+                            .peek(response -> {
+                                response.setQuestion(persistedQuestion);
+                                if(response.getInfluenceOnInvoice() != null) {
+                                    response.getInfluenceOnInvoice().setResponse(response);
+                                }
+                            }) // violates not-null constraint
                             .collect(Collectors.toSet())                               // In bidirectional association we are responsible for handling consistency
                     );
             return questionRepository.save(persistedQuestion);
