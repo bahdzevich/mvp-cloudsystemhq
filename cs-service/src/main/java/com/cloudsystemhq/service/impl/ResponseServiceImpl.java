@@ -1,22 +1,22 @@
 package com.cloudsystemhq.service.impl;
 
-import com.cloudsystemhq.exception.ResourceNotFoundException;
 import com.cloudsystemhq.model.domain.Response;
 import com.cloudsystemhq.repository.QuestionRepository;
 import com.cloudsystemhq.repository.ResponseRepository;
 import com.cloudsystemhq.service.IResponseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ResponseServiceImpl implements IResponseService{
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(ResponseServiceImpl.class.getName());
     private final ResponseRepository responseRepository;
     private final QuestionRepository questionRepository;
 
@@ -27,16 +27,18 @@ public class ResponseServiceImpl implements IResponseService{
     }
 
     @Override
-    public List<Response> getResponsesByQuestionId(Long questionId) {
-        Assert.notNull(questionId, "Question id is null.");
-        return responseRepository.findResponsesByQuestionId(questionId)
-                .orElseThrow(() -> new ResourceNotFoundException("No Responses with questionId=" + questionId + " found"));
+    public Optional<List<Response>> getResponsesByQuestionId(final Long questionId) {
+        if (!questionRepository.existsById(questionId)){
+            LOGGER.warn("There is no question with id=" + questionId);
+        }
+        return responseRepository.findResponsesByQuestionId(questionId);
     }
 
     @Override
-    public Response create(final Long questionId, final Response response) {
-        Assert.notNull(response, "Question id is null.");
-        Assert.notNull(response, "Response is null.");
+    public Optional<Response> create(final Long questionId, final Response response) {
+        if (!questionRepository.existsById(questionId)){
+            LOGGER.warn("There is no question with id=" + questionId);
+        }
         return questionRepository.findById(questionId).map(question -> {
             if (response.getInfluenceOnInvoice() != null){
                 response.getInfluenceOnInvoice().setResponse(response);
@@ -45,52 +47,38 @@ public class ResponseServiceImpl implements IResponseService{
             response.setQuestion(question);
             questionRepository.save(question);
             return response; // id == null, because returned object not persisted yet
-        }).orElseThrow(() -> new ResourceNotFoundException("QuestionId " + questionId + " not found"));
+        });
     }
 
-    public Response findOne(final Long responseId) {
-        Assert.notNull(responseId, "Response id is null.");
-        return responseRepository.findById(responseId)
-                .orElseThrow(() -> new ResourceNotFoundException("ResponseId " + responseId + " not found"));
+    public Optional<Response> findOne(final Long questionId, final Long responseId) {
+        if (!questionRepository.existsById(questionId)){
+            LOGGER.warn("There is no question with id=" + questionId);
+        }
+        return responseRepository.findById(responseId);
     }
 
     @Override
-    public Response update(final Long questionId, final Long responseId, final Response response) {
-        if(!questionRepository.existsById(questionId)) {
-            throw new ResourceNotFoundException("QuestionId " + questionId + " not found");
+    public Optional<Response> update(final Long questionId, final Long responseId, final Response response) {
+        if (!questionRepository.existsById(questionId)){
+            LOGGER.warn("There is no question with id=" + questionId);
         }
-
         return responseRepository.findById(responseId).map(persistedResponse -> {
             persistedResponse.setText(response.getText());
             persistedResponse.setValue(response.getValue());
             persistedResponse.setInfluenceOnInvoice(response.getInfluenceOnInvoice());
             return responseRepository.save(persistedResponse);
-        }).orElseThrow(() -> new ResourceNotFoundException("ResponseId " + responseId + " not found"));
-    }
-
-
-    @Override
-    public Page<Response> findPage(final Long questionId, final Integer page, final Integer size) {
-        Assert.notNull(page, "Page number is null.");
-        Assert.notNull(size, "Page size is null.");
-        if(!questionRepository.existsById(questionId)) {
-            throw new ResourceNotFoundException("QuestionId " + questionId + " not found");
-        }
-        return responseRepository.findAll(PageRequest.of(page, size));
+        });
     }
 
     @Override
     @Transactional
-    public Response delete(final Long questionId, final Long responseId) {
-        Assert.notNull(questionId, "Question id is null.");
-        Assert.notNull(responseId, "Response id is null.");
-        if(!questionRepository.existsById(questionId)) {
-            throw new ResourceNotFoundException("QuestionId " + questionId + " not found");
+    public Optional<Response> delete(final Long questionId, final Long responseId) {
+        if (!questionRepository.existsById(questionId)){
+            LOGGER.warn("There is no question with id=" + questionId);
         }
-
         return responseRepository.findById(responseId).map(response -> {
             responseRepository.delete(response);
             return response;
-        }).orElseThrow(() -> new ResourceNotFoundException("ResponseId " + responseId + " not found"));
+        });
     }
 }

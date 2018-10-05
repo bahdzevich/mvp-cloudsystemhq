@@ -24,28 +24,34 @@ public class InfluenceOnInvoiceRestController {
     public ResponseEntity<InfluenceOnInvoice> create(@PathVariable(value = "questionId") Long questionId,
                                            @PathVariable(value = "responseId") Long responseId,
                                            @RequestBody InfluenceOnInvoice influenceOnInvoice) {
-        InfluenceOnInvoice newInfluence = influenceOnInvoiceService.create(responseId, influenceOnInvoice);
-        return new ResponseEntity<>(newInfluence, HttpStatus.CREATED);
+        return influenceOnInvoiceService.create(responseId, influenceOnInvoice)
+                .map(influence -> new ResponseEntity<>(influence, HttpStatus.CREATED))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+
     }
 
     @GetMapping
     public ResponseEntity<InfluenceOnInvoice> findInfluenceByResponseId(@PathVariable(value = "questionId") Long questionId,
                                                            @PathVariable(value = "responseId") Long responseId) {
-        InfluenceOnInvoice influenceOnInvoice = influenceOnInvoiceService.findInfluenceByResponseId(responseId);
-        return ResponseEntity.ok(influenceOnInvoice);
+        return influenceOnInvoiceService.findInfluenceByResponseId(responseId)
+                .map(influence -> new ResponseEntity<>(influence, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<InfluenceOnInvoice> update(@PathVariable(value = "questionId") Long questionId,
                                            @PathVariable(value = "responseId") Long responseId,
                                            @RequestBody InfluenceOnInvoice influenceOnInvoice){
-        InfluenceOnInvoice updatedInfluenceOnInvoice = influenceOnInvoiceService.update(responseId, influenceOnInvoice);
-        return ResponseEntity.ok(updatedInfluenceOnInvoice);
+        return influenceOnInvoiceService.update(responseId, influenceOnInvoice)
+                .map(influence -> new ResponseEntity<>(influence, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping
     public ResponseEntity<InfluenceOnInvoice> delete(@PathVariable(value = "questionId") Long questionId,
                                            @PathVariable(value = "responseId") Long responseId) {
-        return ResponseEntity.ok(influenceOnInvoiceService.delete(responseId));
+        return influenceOnInvoiceService.delete(responseId)
+                .map(influence -> new ResponseEntity<>(influence, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

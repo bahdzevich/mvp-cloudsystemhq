@@ -24,34 +24,41 @@ public class ResponseRestController{
     @PostMapping
     public ResponseEntity<Response> create(@PathVariable(value = "questionId") Long questionId,
                                            @RequestBody Response response) {
-        Response newResponse = responseService.create(questionId, response);
-        return new ResponseEntity<>(newResponse, HttpStatus.CREATED);
+
+        return responseService.create(questionId, response)
+                .map(createdResponse ->  new ResponseEntity<>(createdResponse, HttpStatus.CREATED))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping
     public ResponseEntity<List<Response>> findAll(@PathVariable(value = "questionId") Long questionId) {
-        List<Response> responses = responseService.getResponsesByQuestionId(questionId);
-        return ResponseEntity.ok(responses);
+        return responseService.getResponsesByQuestionId(questionId)
+                .map(responses -> new ResponseEntity<>(responses,HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @GetMapping(value = "/{responseId:[0-9]+}")
     public ResponseEntity<Response> findOne(@PathVariable(value = "questionId") Long questionId,
                                                       @PathVariable(value = "responseId") Long responseId) {
-        Response response = responseService.findOne(responseId);
-        return ResponseEntity.ok(response);
+        return responseService.findOne(questionId, responseId)
+                .map(response -> new ResponseEntity<>(response,HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PutMapping(value = "/{responseId:[0-9]+}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Response> update(@PathVariable(value = "questionId") Long questionId,
                                            @PathVariable(value = "responseId") Long responseId,
                                            @RequestBody Response response){
-        Response updatedResponse = responseService.update(questionId, responseId, response);
-        return ResponseEntity.ok(updatedResponse);
+        return responseService.update(questionId, responseId, response)
+                .map(updatedResponse -> new ResponseEntity<>(updatedResponse,HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping(value = "/{responseId:[0-9]+}")
     public ResponseEntity<Response> delete(@PathVariable(value = "questionId") Long questionId,
                                            @PathVariable(value = "responseId") Long responseId) {
-       return ResponseEntity.ok(responseService.delete(questionId, responseId));
+       return responseService.delete(questionId, responseId)
+               .map(deletedRequest -> new ResponseEntity<>(deletedRequest,HttpStatus.OK))
+               .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }
