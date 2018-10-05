@@ -2,19 +2,27 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 
+import {NotificationModule} from "@progress/kendo-angular-notification";
+
 import {JwtInterceptor} from "./auth/interceptors/jwt-interceptor.service";
-import {CurrentUserService} from "./auth/services/current-user.service";
-import {AuthService} from "./auth/services/auth.service";
+import {MessengerComponent} from './messenger/components/messenger/messenger.component';
+import {ApplicationStateInterceptor} from "./application/interceptors/aplication-state-interceptor.service";
 
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    NotificationModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
-    CurrentUserService,
-    AuthService
+    {provide: HTTP_INTERCEPTORS, useClass: ApplicationStateInterceptor, multi: true}
+  ],
+  declarations: [
+    MessengerComponent
+  ],
+  exports: [
+    MessengerComponent
   ]
 })
 export class CoreModule {

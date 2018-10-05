@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {User} from "../core/auth/models/user";
 import {AuthService} from "../core/auth/services/auth.service";
+import {finalize, tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-auth',
@@ -31,9 +32,8 @@ export class AuthComponent implements OnInit {
 
   public registrate(user: User): void {
     this.authService.registrate(user)
-      .subscribe(
-        () => this.closeRegistrationDialog(),
-        () => this.closeRegistrationDialog());
+      .pipe(finalize(() => this.closeRegistrationDialog()))
+      .subscribe();
   }
 
   public closeLoginDialog(): void {
@@ -43,8 +43,7 @@ export class AuthComponent implements OnInit {
 
   public login(user: User): void {
     this.authService.login(user)
-      .subscribe(
-        () => this.closeLoginDialog(),
-        () => this.closeRegistrationDialog());
+      .pipe(finalize(() => this.closeLoginDialog()))
+      .subscribe();
   }
 }

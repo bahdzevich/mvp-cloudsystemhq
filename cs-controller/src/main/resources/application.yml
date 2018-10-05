@@ -5,7 +5,7 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/CLOUDSYSTEMHQ
     username: postgres
-    password: WhyTryHarder
+    password: root
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
