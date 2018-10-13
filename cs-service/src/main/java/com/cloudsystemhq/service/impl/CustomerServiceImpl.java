@@ -1,33 +1,33 @@
 package com.cloudsystemhq.service.impl;
 
 import com.cloudsystemhq.model.domain.Customer;
+import com.cloudsystemhq.model.dto.request.CustomerRequestDto;
+import com.cloudsystemhq.model.dto.response.CustomerResponseDto;
 import com.cloudsystemhq.repository.CustomerRepository;
 import com.cloudsystemhq.security.service.CustomerRegistrationService;
 import com.cloudsystemhq.service.ICustomerService;
-import java.util.List;
-import java.util.Optional;
+import com.cloudsystemhq.service.util.mapping.CustomerMapper;
 import java.util.function.Function;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 @Service
-public class CustomerServiceImpl implements ICustomerService {
+public class CustomerServiceImpl extends
+    AbstractBaseServiceImpl<Customer, CustomerRequestDto, CustomerResponseDto, Long> implements
+    ICustomerService {
 
-  private final CustomerRepository customerRepository;
+  //  private final CustomerRepository customerRepository;
   private final CustomerRegistrationService registrationService;
 
-  @Autowired
-  public CustomerServiceImpl(CustomerRepository customerRepository,
+
+  public CustomerServiceImpl(
+      CustomerRepository repository,
+      CustomerMapper mapper,
       CustomerRegistrationService registrationService) {
-    this.customerRepository = customerRepository;
+    super(repository, mapper);
     this.registrationService = registrationService;
   }
 
-  @Override
+  /*@Override
   public Customer create(final Customer customer) {
     Assert.notNull(customer, "Admin is null.");
     return registrationService.createCustomer(customer);
@@ -67,12 +67,14 @@ public class CustomerServiceImpl implements ICustomerService {
     userOptional.ifPresent(customerRepository::delete);
     return userOptional;
   }
+*/
 
-  private Function<Customer, Customer> updateUser(final Customer updatedCustomer) {
+  @Override
+  Function<Customer, Customer> updateEntity(final Customer newEntity) {
     return (persistedCustomer) -> {
-      persistedCustomer.setEmail(updatedCustomer.getEmail());
-      persistedCustomer.setName(updatedCustomer.getName());
-      persistedCustomer.setPhone(updatedCustomer.getPhone());
+      persistedCustomer.setEmail(newEntity.getEmail());
+      persistedCustomer.setName(newEntity.getName());
+      persistedCustomer.setPhone(newEntity.getPhone());
       return persistedCustomer;
     };
   }
