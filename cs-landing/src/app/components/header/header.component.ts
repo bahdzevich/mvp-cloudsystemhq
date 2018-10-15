@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
+  public registrationDisplay = false;
+
   constructor() { }
 
   ngOnInit() {
   }
 
+  public showRegistrationDialog(): void {
+    this.registrationDisplay = true;
+  }
 }

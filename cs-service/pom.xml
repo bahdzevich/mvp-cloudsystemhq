@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>com.cloudsystemhq</groupId>
-            <artifactId>cs-repository</artifactId>
+            <artifactId>cs-security</artifactId>
             <version>${project.version}</version>
         </dependency>
         <!-- Map struct -->
