@@ -12,16 +12,20 @@ import './header.scss';
 class Header extends Component {
   constructor(props){
     super(props);
+    this.lang = (window.localStorage.getItem('lang')) || 'en';
     this.props.initialize({
       languages: [
-        { name: "En", code: "en" },
-        { name: "Ru", code: "ru" },
-        { name: "Fr", code: "fr" },
-        { name: "Gr", code: "gr" },
-        { name: "It", code: "it" }
+        { name: 'En', code: 'en' },
+        { name: 'Ru', code: 'ru' },
+        { name: 'Fr', code: 'fr' },
+        { name: 'Gr', code: 'gr' },
+        { name: 'It', code: 'it' }
       ],
       translation: globalTranslations,
-      options: { renderToStaticMarkup }
+      options: {
+        renderToStaticMarkup,
+        defaultLanguage: this.lang
+      }
     });
   }
   render() {

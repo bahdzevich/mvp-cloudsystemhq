@@ -6,12 +6,17 @@ const LanguageToggle = ({languages, activeLanguage, setActiveLanguage}) => {
     return languageCode === activeLanguage.code ? ' header__lang-item--active' : '';
   };
 
+  const onToggleLang = (lang) => {
+    setActiveLanguage(lang);
+    window.localStorage.setItem('lang', lang);
+  };
+
   return (
     <div className='header__lang-wrap'>
       {languages.map(lang => (
         <a key={lang.code}
           className={'header__lang-item text-little' + getClass(lang.code)}
-          onClick={() => setActiveLanguage(lang.code)}
+          onClick={() => onToggleLang(lang.code)}
         >
           {lang.name}
         </a>
@@ -19,4 +24,5 @@ const LanguageToggle = ({languages, activeLanguage, setActiveLanguage}) => {
     </div>
   );
 };
+
 export default withLocalize(LanguageToggle);
