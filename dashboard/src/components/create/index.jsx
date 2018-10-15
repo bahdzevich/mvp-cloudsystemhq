@@ -1,57 +1,27 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { withLocalize, Translate } from 'react-localize-redux';
+
+import translations from '../../translations/create.json';
 import './create.scss';
 
-const strings = {
-  en: {
-    text: 'Create questions'
-  },
-  ru: {
-    text: 'Страница создания вопросов'
-  },
-  fr: {
-    text: "Créer des questions"
-  },
-  gr: {
-    text: 'Erstellen Sie Fragen'
-  },
-  it: {
-    text: 'Crear preguntas'
-  }
-};
-
 class Create extends Component {
-  constructor(){
-    super();
-    this.state = {
-      strings: strings[Object.keys(strings)[0]],
-    }
-    this.checkLang = this.checkLang.bind(this);
-  }
-  checkLang(lang) {
-    const language = strings[lang];
-    this.setState({strings: language});
-  }
-  componentWillMount() {
-    this.checkLang(this.props.lang);
-  }
-  componentWillReceiveProps() {
-    setTimeout(() => { this.checkLang(this.props.lang); }, 0);
+  constructor(props){
+    super(props);
+    this.props.addTranslation(translations);
   }
   render() {
-    const strings = this.state.strings;
     return(
-      <div className='create'>
-        <div className='create__content main'>
-          <p className='create__text text'>{strings.text}</p>
-        </div>
-      </div>
+      <Translate>
+        {({translate}) =>
+          <div className='create'>
+            <div className='create__content main'>
+              <p className='create__text text'>{translate('create.text')}</p>
+            </div>
+          </div>
+        }
+      </Translate>
     )
   }
 };
 
-export default Create;
-
-Create.propTypes = {
-  lang: PropTypes.string,
-}
+export default withLocalize(Create);
