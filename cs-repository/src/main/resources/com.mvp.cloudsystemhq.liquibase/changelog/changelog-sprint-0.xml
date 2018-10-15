@@ -3,12 +3,40 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <changeSet id="2018-10-10_create_TestTable" author="a3.kulik">
-        <createTable tableName="TestTable">
+    <changeSet id="2018-10-15_create_CUSTOMER" author="a3.kulik">
+        <createTable tableName="CUSTOMER">
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="testfield" type="VARCHAR(128)"/>
+            <column name="email" type="VARCHAR(100)"/>
+            <column name="password" type="VARCHAR(100)"/>
+            <column name="name" type="VARCHAR(100)"/>
+            <column name="phone" type="VARCHAR(100)"/>
+            <column name="confirmed" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="2018-10-15_create_ROLE" author="a3.kulik">
+        <createTable tableName="ROLE">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(100)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2018-10-15_create_CUSTOMER_ROLE" author="a3.kulik">
+        <createTable tableName="CUSTOMER_ROLE">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="role_id" type="BIGINT">
+                <constraints foreignKeyName="fk_customer_role_role" references="ROLE(id)"/>
+            </column>
+            <column name="customer_id" type="BIGINT">
+                <constraints foreignKeyName="fk_customer_role_customer" references="CUSTOMER(id)"/>
+            </column>
         </createTable>
     </changeSet>
 

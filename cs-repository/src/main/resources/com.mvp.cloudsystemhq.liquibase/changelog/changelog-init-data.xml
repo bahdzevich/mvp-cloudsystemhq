@@ -4,7 +4,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <changeSet id="2018-10-10_populate_TestTable" author="a3.kulik">
-        <sqlFile path="com/mvp/cloudsystemhq/liquibase/sql/initial_test.sql"/>
+        <sqlFile path="classpath:com.mvp.cloudsystemhq.liquibase/sql/initial_test.sql"/>
     </changeSet>
 
 </databaseChangeLog>

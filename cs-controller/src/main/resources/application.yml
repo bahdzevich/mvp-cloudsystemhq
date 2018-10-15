@@ -5,13 +5,13 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/CLOUDSYSTEMHQ
     username: postgres
-    password: WhyTryHarder
+    password: root
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
-    generate-ddl: true
+    generate-ddl: false
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
     properties:
       hibernate:
