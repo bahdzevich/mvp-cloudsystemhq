@@ -5,6 +5,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,13 +13,12 @@ import java.util.List;
 @Setter
 @DiscriminatorValue("1")
 @ToString
-public class ServerList extends InvoiceParameter {
+public class ServerListParameter extends InvoiceParameter {
 
     @Enumerated(EnumType.STRING)
     private ServerProvider serverProvider;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name="server_list_id", referencedColumnName="parameter_id", nullable = false)
-    private List<ServerInstance> serverInstances;
-
+    @JoinColumn(name="server_list_parameter_id", referencedColumnName="parameter_id", nullable = false)
+    private List<ServerInstanceParameter> serverInstanceParameters = new ArrayList<>();
 }

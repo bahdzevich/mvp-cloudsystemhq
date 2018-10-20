@@ -13,7 +13,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "QUESTION")
 @Getter
 @Setter
 @ToString
@@ -25,9 +24,8 @@ import java.util.Set;
         scope = Question.class
 )
 public class Question{
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String title;
 

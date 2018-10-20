@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "CUSTOMER_FORM")
 @Getter
 @Setter
 @ToString
@@ -26,5 +25,4 @@ public class CustomerForm {
             name = "customer_form_response",
             joinColumns = @JoinColumn(name = "customer_form_id", referencedColumnName = "id"))
     private Set<Response> responses = new HashSet<>();
-
 }

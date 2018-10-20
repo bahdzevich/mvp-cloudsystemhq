@@ -6,6 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -16,8 +18,12 @@ public class Infrastructure {
     @Id
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL)
-    private ServerList serverList;
+    @Enumerated(EnumType.STRING)
+    private ServerProvider serverProvider;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name="infrastructure_id")
+    private List<ServerInstance> serverInstances = new ArrayList<>();
 
     @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL)
     @JoinColumn(name = "subscription_id")

@@ -16,7 +16,7 @@ public class InfrastructureDeployment {
     @Id
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL)
+    @Enumerated(EnumType.STRING)
     private Urgency urgency; // need opportunity to customize
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
@@ -24,5 +24,5 @@ public class InfrastructureDeployment {
     @JsonIgnore
     private Invoice invoice;
 
-    private LocalDateTime deploymentStartDateTime;
+    private LocalDateTime deploymentStartTime;
 }

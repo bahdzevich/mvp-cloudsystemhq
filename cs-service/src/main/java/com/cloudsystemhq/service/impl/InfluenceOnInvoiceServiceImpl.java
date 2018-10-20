@@ -51,7 +51,8 @@ public class InfluenceOnInvoiceServiceImpl implements IInfluenceOnInvoiceService
             LOGGER.warn("There is no response with id=" + responseId);
         }
         return influenceRepository.findById(responseId).map(persistedInfluence -> {
-            persistedInfluence.setPrice(influenceOnInvoice.getPrice());
+            persistedInfluence.setInvoiceParameters(influenceOnInvoice.getInvoiceParameters());
+            persistedInfluence.setPriceDependencies(influenceOnInvoice.getPriceDependencies());
             persistedInfluence.setResponse(influenceOnInvoice.getResponse());
             return influenceRepository.save(persistedInfluence);
         });

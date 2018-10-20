@@ -16,7 +16,7 @@ public class Support {
    @Id
    private Long id;
 
-   @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL)
+   @Enumerated(EnumType.STRING)
    private SupportType supportType;
 
    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL)
