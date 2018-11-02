@@ -1,0 +1,1 @@
+export const CREATE_PAGE_FETCHED = 'create.CREATE_PAGE_FETCHED';

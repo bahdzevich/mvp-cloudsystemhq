@@ -1,0 +1,1 @@
+export const HOME_FETCHED = 'home.HOME_FETCHED';
