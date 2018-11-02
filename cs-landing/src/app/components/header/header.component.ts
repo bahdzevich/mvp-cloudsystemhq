@@ -9,6 +9,8 @@ export class HeaderComponent implements OnInit {
 
   public registrationDisplay = false;
 
+  public loginDisplay = false;
+
   constructor() { }
 
   ngOnInit() {
@@ -16,5 +18,9 @@ export class HeaderComponent implements OnInit {
 
   public showRegistrationDialog(): void {
     this.registrationDisplay = true;
+  }
+
+  public showLoginDialog(): void {
+    this.loginDisplay = true;
   }
 }

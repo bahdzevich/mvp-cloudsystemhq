@@ -1,0 +1,48 @@
+{
+  "header": {
+    "home": [
+      "Home",
+      "Главная страница",
+      "Page d'accueil",
+      "Hauptseite",
+      "Página de inicio"
+    ],
+    "create": [
+      "Create questions",
+      "Создать вопросы",
+      "Créer des questions",
+      "Erstellen Sie Fragen",
+      "Crear preguntas"
+    ],
+    "invoice": [
+      "Invoice Dependencies",
+      "Зависимости счетов",
+      "Dépendances du compte",
+      "Kontoabhängigkeiten",
+      "Dependencias de cuentas"
+    ]
+  },
+  "not-found": {
+    "text": [
+      "Page not found.",
+      "Страница не найдена.",
+      "Page non trouvée.",
+      "Seite nicht gefunden.",
+      "Página no encontrada."
+    ],
+    "text1": [
+      "Go back to the",
+      "Вернуться на",
+      "Retour à",
+      "Zurück zu",
+      "Volver a"
+    ],
+    "link": [
+      "main page",
+      "главную страницу",
+      "page d'accueil",
+      "startseite",
+      "página de inicio"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+.comment-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.comment-text {
+  padding: 5px;
+  font-size: 12px;
+}
