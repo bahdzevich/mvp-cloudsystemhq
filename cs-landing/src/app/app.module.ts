@@ -11,6 +11,11 @@ import {CommentsPanelComponent} from './components/comments-panel/comments-panel
 import {CoreModule} from "./core/core.module";
 import {SharedModule} from "./shared/shared.module";
 import {AuthModule} from "./auth/auth.module";
+import {NotificationModule} from '@progress/kendo-angular-notification';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { PartnerElementComponent } from './components/partners-panel/components/partner-element/partner-element.component';
+import { CommentElementComponent } from './components/comments-panel/components/comment-element/comment-element.component';
+
 
 @NgModule({
   declarations: [
@@ -20,13 +25,17 @@ import {AuthModule} from "./auth/auth.module";
     PartnersPanelComponent,
     AboutPanelComponent,
     ContactsPanelComponent,
-    CommentsPanelComponent
+    CommentsPanelComponent,
+    PartnerElementComponent,
+    CommentElementComponent
   ],
   imports: [
     BrowserModule,
     CoreModule,
     SharedModule,
-    AuthModule
+    AuthModule,
+    NotificationModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

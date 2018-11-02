@@ -10,6 +10,8 @@ export class User {
     );
   }
 
+  public grant_type: string;
+
   constructor(
     public id: number,
     public email: string,

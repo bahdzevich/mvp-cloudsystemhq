@@ -1,75 +1,81 @@
 package com.cloudsystemhq.service.impl;
 
 import com.cloudsystemhq.model.domain.Customer;
+import com.cloudsystemhq.model.dto.request.CustomerRequestDto;
+import com.cloudsystemhq.model.dto.response.CustomerResponseDto;
 import com.cloudsystemhq.repository.CustomerRepository;
+import com.cloudsystemhq.security.service.CustomerRegistrationService;
 import com.cloudsystemhq.service.ICustomerService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
-
-import java.util.List;
-import java.util.Optional;
+import com.cloudsystemhq.service.util.mapping.CustomerMapper;
 import java.util.function.Function;
+import org.springframework.stereotype.Service;
 
 @Service
-public class CustomerServiceImpl implements ICustomerService {
+public class CustomerServiceImpl extends
+    AbstractBaseServiceImpl<Customer, CustomerRequestDto, CustomerResponseDto, Long> implements
+    ICustomerService {
 
-    private final CustomerRepository customerRepository;
+  //  private final CustomerRepository customerRepository;
+  private final CustomerRegistrationService registrationService;
 
-    @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
-    }
 
-    @Override
-    public Customer create(final Customer admin) {
-        Assert.notNull(admin, "Admin is null.");
-        return customerRepository.save(admin);
-    }
+  public CustomerServiceImpl(
+      CustomerRepository repository,
+      CustomerMapper mapper,
+      CustomerRegistrationService registrationService) {
+    super(repository, mapper);
+    this.registrationService = registrationService;
+  }
 
-    @Override
-    public Optional<Customer> findOne(final Long id) {
-        Assert.notNull(id, "Admin id is null.");
-        return customerRepository.findById(id);
-    }
+  /*@Override
+  public Customer create(final Customer customer) {
+    Assert.notNull(customer, "Admin is null.");
+    return registrationService.createCustomer(customer);
+  }
 
-    @Override
-    public List<Customer> findAll() {
-        return customerRepository.findAll();
-    }
+  @Override
+  public Optional<Customer> findOne(final Long id) {
+    Assert.notNull(id, "Admin id is null.");
+    return customerRepository.findById(id);
+  }
 
-    @Override
-    public Page<Customer> findPage(final Integer page, final Integer size) {
-        Assert.notNull(page, "Page number is null.");
-        Assert.notNull(size, "Page size is null.");
-        return customerRepository.findAll(PageRequest.of(page, size));
-    }
+  @Override
+  public List<Customer> findAll() {
+    return customerRepository.findAll();
+  }
 
-    @Override
-    @Transactional
-    public Optional<Customer> update(final Long id, final Customer customer) {
-        Assert.notNull(id, "Customer id is null.");
-        Assert.notNull(customer, "Customer is null.");
-        return customerRepository.findById(id).map(updateUser(customer));
-    }
+  @Override
+  public Page<Customer> findPage(final Integer page, final Integer size) {
+    Assert.notNull(page, "Page number is null.");
+    Assert.notNull(size, "Page size is null.");
+    return customerRepository.findAll(PageRequest.of(page, size));
+  }
 
-    @Override
-    @Transactional
-    public Optional<Customer> delete(final Long id) {
-        Assert.notNull(id, "Customer id is null.");
-        Optional<Customer> userOptional = customerRepository.findById(id);
-        userOptional.ifPresent(customerRepository::delete);
-        return userOptional;
-    }
+  @Override
+  @Transactional
+  public Optional<Customer> update(final Long id, final Customer customer) {
+    Assert.notNull(id, "Customer id is null.");
+    Assert.notNull(customer, "Customer is null.");
+    return customerRepository.findById(id).map(updateUser(customer));
+  }
 
-    private Function<Customer, Customer> updateUser(final Customer updatedCustomer) {
-        return (persistedCustomer) -> {
-            persistedCustomer.setEmail(updatedCustomer.getEmail());
-            persistedCustomer.setName(updatedCustomer.getName());
-            persistedCustomer.setPhone(updatedCustomer.getPhone());
-            return persistedCustomer; };
-    }
+  @Override
+  @Transactional
+  public Optional<Customer> delete(final Long id) {
+    Assert.notNull(id, "Customer id is null.");
+    Optional<Customer> userOptional = customerRepository.findById(id);
+    userOptional.ifPresent(customerRepository::delete);
+    return userOptional;
+  }
+*/
+
+  @Override
+  Function<Customer, Customer> updateEntity(final Customer newEntity) {
+    return (persistedCustomer) -> {
+      persistedCustomer.setEmail(newEntity.getEmail());
+      persistedCustomer.setName(newEntity.getName());
+      persistedCustomer.setPhone(newEntity.getPhone());
+      return persistedCustomer;
+    };
+  }
 }

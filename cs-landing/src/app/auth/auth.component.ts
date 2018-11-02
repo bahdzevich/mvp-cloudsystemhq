@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {User} from "../core/auth/models/user";
 import {AuthService} from "../core/auth/services/auth.service";
+import {finalize, tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-auth',
@@ -9,12 +10,13 @@ import {AuthService} from "../core/auth/services/auth.service";
 })
 export class AuthComponent implements OnInit {
 
-  /**
-   * Required param for correct work.
-   */
   @Input() public registrationDisplay: boolean;
 
   @Output() public registrationDisplayChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  @Input() public loginDisplay: boolean;
+
+  @Output() public loginDisplayChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
     private authService: AuthService
@@ -30,6 +32,18 @@ export class AuthComponent implements OnInit {
 
   public registrate(user: User): void {
     this.authService.registrate(user)
-      .subscribe(() => this.registrationDisplay = false);
+      .pipe(finalize(() => this.closeRegistrationDialog()))
+      .subscribe();
+  }
+
+  public closeLoginDialog(): void {
+    this.loginDisplay = false;
+    this.loginDisplayChange.emit(false);
+  }
+
+  public login(user: User): void {
+    this.authService.login(user)
+      .pipe(finalize(() => this.closeLoginDialog()))
+      .subscribe();
   }
 }
