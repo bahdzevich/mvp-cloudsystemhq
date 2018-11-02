@@ -1,3 +1,7 @@
-<p>
-  comments-panel works!
-</p>
+<div class="row">
+  <div *ngFor="let commentSetting of commentsSettings" class="col-sm-12">
+    <div class="offset-2 col-sm-8 comment-element">
+      <app-comment-element [settings]="commentSetting"></app-comment-element>
+    </div>
+  </div>
+</div>

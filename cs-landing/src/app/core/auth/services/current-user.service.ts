@@ -8,7 +8,9 @@ import {User} from "../models/user";
 /**
  * Service provide the current user as stream data.
  */
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class CurrentUserService {
 
   private currentUser: ReplaySubject<User> = new ReplaySubject<User>(1);

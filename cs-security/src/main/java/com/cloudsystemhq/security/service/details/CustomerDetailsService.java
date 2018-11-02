@@ -1,10 +1,14 @@
-package com.cloudsystemhq.security.service;
+package com.cloudsystemhq.security.service.details;
 
 
+import com.cloudsystemhq.model.domain.Customer;
+import com.cloudsystemhq.model.domain.Role;
 import com.cloudsystemhq.repository.CustomerRepository;
 import com.cloudsystemhq.repository.RoleRepository;
+import com.cloudsystemhq.security.service.CustomerRegistrationService;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +22,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 
 @Service
 @PropertySource("classpath:security.properties")
-public class CustomerDetailsService implements UserDetailsService {
+public class CustomerDetailsService implements UserDetailsService, CustomerRegistrationService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(CustomerDetailsService.class);
 
@@ -59,5 +64,17 @@ public class CustomerDetailsService implements UserDetailsService {
               User(user.getEmail(), user.getPassword(), authorities);
         })
         .orElseThrow(() -> new UsernameNotFoundException("Customer not found."));
+  }
+
+  @Override
+  public Customer createCustomer(@NotNull Customer customer) {
+    Assert.notNull(customer.getEmail(), "Customer email is null.");
+    Assert.notNull(customer.getPassword(), "Customer password is null.");
+    String encodedPassword = passwordEncoder.encode(customer.getPassword());
+    customer.setPassword(encodedPassword);
+    Role role = roleRepository.findRoleByName(DEFAULT_ROLE_NAME)
+        .orElseThrow(() -> new RuntimeException("Default role not found."));
+    customer.getRoles().add(role);
+    return customerRepository.save(customer);
   }
 }

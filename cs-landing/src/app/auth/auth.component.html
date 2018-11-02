@@ -3,3 +3,9 @@
   (onClose)="closeRegistrationDialog()"
   (onReg)="registrate($event)">
 </app-registration>
+
+<app-login
+  *ngIf="loginDisplay"
+  (onClose)="closeLoginDialog()"
+  (onLogin)="login($event)">
+</app-login>
