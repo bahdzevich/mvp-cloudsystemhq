@@ -1,39 +1,21 @@
-import React, { Component } from 'react';
-import { createStore, combineReducers } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
-import { BrowserRouter as Router} from 'react-router-dom';
-import { LocalizeProvider, localizeReducer } from 'react-localize-redux';
+import React, {Component} from 'react';
+import {BrowserRouter as Router} from 'react-router-dom';
 import './base/styles/common.scss';
-
 import ItemsSwitch from './switch';
-import Header from './components/header';
+import NavbarContainer from './containers/navbar/navbar.container';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      store: this.getReduxStore()
+
+    render() {
+        return (
+            <Router>
+                <div className='page'>
+                    <NavbarContainer/>
+                    <ItemsSwitch/>
+                </div>
+            </Router>
+        );
     }
-  }
-
-  getReduxStore() {
-    return createStore(combineReducers({
-      localize: localizeReducer
-    }), composeWithDevTools());
-  }
-
-  render() {
-    return (
-      <LocalizeProvider store={this.state.store}>
-        <Router >
-          <div className='page'>
-            <Header />
-            <ItemsSwitch />
-          </div>
-        </Router>
-      </LocalizeProvider>
-    );
-  }
 }
 
 export default App;

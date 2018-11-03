@@ -1,0 +1,1 @@
+export const NOT_FOUND_FETCHED = 'notfound.NOT_FOUND_FETCHED';

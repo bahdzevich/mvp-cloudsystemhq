@@ -1,24 +1,24 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Home from './components/home';
-import Invoice from './components/invoice';
-import Create from './components/create';
-import NotFound from './components/not-found';
+import HomeContainer from './containers/home/home.container';
+import InvoiceContainer from './containers/invoice/invoice.container';
+import CreateContainer from './containers/create/create.container';
+import NotFoundContainer from './containers/not-found/not-found.container';
 
 const routes = [
   {
     path: '/',
     exact: true,
-    component: Home,
+    component: HomeContainer,
   },
   {
     path: '/invoice',
-    component: Invoice,
+    component: InvoiceContainer,
   },
   {
     path: '/create',
-    component: Create,
+    component: CreateContainer,
   }
 ];
 
@@ -28,7 +28,7 @@ export default function ItemsSwitch() {
       {routes.map((route, i) => (
         <Route key={`route-${i}`} path={route.path} exact={route.exact} component={route.component} />
       ))}
-      <Route component={NotFound} />
+      <Route component={NotFoundContainer} />
     </Switch>
   );
 }

@@ -1,0 +1,1 @@
+export const NAVBAR_FETCHED = 'navbar.NAVBAR_FETCHED';

@@ -1,0 +1,1 @@
+export const INVOICE_FETCHED = 'invoice.INVOICE_FETCHED';
