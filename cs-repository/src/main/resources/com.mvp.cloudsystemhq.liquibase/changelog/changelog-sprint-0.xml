@@ -9,13 +9,12 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="email" type="VARCHAR(100)"/>
-            <column name="password" type="VARCHAR(100)"/>
+            <column name="password" type="VARCHAR(255)"/>
             <column name="name" type="VARCHAR(100)"/>
             <column name="phone" type="VARCHAR(100)"/>
             <column name="confirmed" type="BOOLEAN"/>
         </createTable>
     </changeSet>
-
 
     <changeSet id="2018-10-15_create_ROLE" author="a3.kulik">
         <createTable tableName="ROLE">
@@ -28,16 +27,175 @@
 
     <changeSet id="2018-10-15_create_CUSTOMER_ROLE" author="a3.kulik">
         <createTable tableName="CUSTOMER_ROLE">
+            <column name="role_id" type="BIGINT">
+                <constraints foreignKeyName="fk_customer_role_role" references="ROLE(id)" nullable="false"/>
+            </column>
+            <column name="customer_id" type="BIGINT">
+                <constraints foreignKeyName="fk_customer_role_customer" references="CUSTOMER(id)" nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="customer_id, role_id"
+                       constraintName="customer_role_pkey" tableName="CUSTOMER_ROLE"/>
+    </changeSet>
+
+    <changeSet id="2018-10-22_create_QUESTION" author="Alexander.Sawko">
+        <createTable tableName="QUESTION">
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="role_id" type="BIGINT">
-                <constraints foreignKeyName="fk_customer_role_role" references="ROLE(id)"/>
+            <column name="title" type="VARCHAR(100)"/>
+            <column name="type" type="VARCHAR(100)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2018-10-22_create_RESPONSE" author="Alexander.Sawko">
+        <createTable tableName="RESPONSE">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="customer_id" type="BIGINT">
-                <constraints foreignKeyName="fk_customer_role_customer" references="CUSTOMER(id)"/>
+            <column name="text" type="VARCHAR(100)"/>
+            <column name="value" type="VARCHAR(100)"/>
+            <column name="question_id" type="BIGINT">
+                <constraints foreignKeyName="fk_response_question" references="QUESTION(id)" nullable="false"/>
+            </column>
+            <column name="next_question_id" type="BIGINT">
+                <constraints foreignKeyName="fk_response_next_question" references="QUESTION(id)"/>
             </column>
         </createTable>
     </changeSet>
 
+    <changeSet id="2018-10-22_create_CUSTOMER_RESPONSE" author="Alexander.Sawko">
+        <createTable tableName="CUSTOMER_RESPONSE">
+            <column name="customer_id" type="BIGINT">
+                <constraints foreignKeyName="fk_customer_response_customer" references="CUSTOMER(id)" nullable="false"/>
+            </column>
+            <column name="responses_id" type="BIGINT">
+                <constraints foreignKeyName="fk_customer_response_response" references="RESPONSE(id)" nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="customer_id, responses_id"
+                       constraintName="customer_response_pkey" tableName="CUSTOMER_RESPONSE"/>
+    </changeSet>
+
+    <changeSet id="2018-10-22_create_INFLUENCE_ON_INVOICE" author="Alexander.Sawko">
+        <createTable tableName="INFLUENCE_ON_INVOICE">
+            <column name="response_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" foreignKeyName="fk_influence_on_invoice_response" references="RESPONSE(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2018-10-22_create_PRICE_DEPENDENCY" author="Alexander.Sawko">
+        <createTable tableName="PRICE_DEPENDENCY">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="invoice_section" type="VARCHAR(100)"/>
+            <column name="operation_type" type="VARCHAR(100)"/>
+            <column name="value" type="NUMERIC(19, 2)"/>
+            <column name="influence_id" type="BIGINT">
+                <constraints foreignKeyName="fk_price_dependency_influence" references="INFLUENCE_ON_INVOICE(response_id)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2018-10-22_create_INVOICE_PARAMETERS" author="Alexander.Sawko">
+        <createTable tableName="INVOICE_PARAMETERS">
+            <column name="parameter_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="parameter_type" type="INTEGER NOT NULL"/>
+            <column name="importance" type="INTEGER NOT NULL"/>
+            <column name="invoice_section" type="VARCHAR(100) NOT NULL"/>
+            <column name="server_provider" type="VARCHAR(100)"/>
+            <column name="subscription_type" type="VARCHAR(100)"/>
+            <column name="support_type" type="VARCHAR(100)"/>
+            <column name="urgency" type="VARCHAR(100)"/>
+            <column name="influence_id" type="BIGINT">
+                <constraints foreignKeyName="fk_invoice_parameters_influence" references="INFLUENCE_ON_INVOICE(response_id)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2018-10-22_create_INVOICE" author="Alexander.Sawko">
+        <createTable tableName="INVOICE">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="total_price" type="NUMERIC(19, 2)"/>
+            <column name="customer_id" type="BIGINT">
+                <constraints foreignKeyName="fk_invoice_customer" references="CUSTOMER(id)" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2018-10-22_create_SUBSCRIPTION" author="Alexander.Sawko">
+        <createTable tableName="SUBSCRIPTION">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="subscription_start_date" type="TIMESTAMP"/>
+            <column name="subscription_type" type="VARCHAR(100)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2018-10-22_create_INFRASTRUCTURE" author="Alexander.Sawko">
+        <createTable tableName="INFRASTRUCTURE">
+            <column name="invoice_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" foreignKeyName="fk_infrastructure_invoice" references="INVOICE(id)"/>
+            </column>
+            <column name="server_provider" type="VARCHAR(100)"/>
+            <column name="subscription_id" type="BIGINT">
+                <constraints foreignKeyName="fk_infrastructure_subscription" references="SUBSCRIPTION(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2018-10-22_create_INFRASTRUCTURE_DEPLOYMENT" author="Alexander.Sawko">
+        <createTable tableName="INFRASTRUCTURE_DEPLOYMENT">
+            <column name="invoice_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" foreignKeyName="fk_infrastructure_deployment_invoice" references="INVOICE(id)"/>
+            </column>
+            <column name="urgency" type="VARCHAR(100)"/>
+            <column name="deployment_start_time" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2018-10-22_create_SUPPORT" author="Alexander.Sawko">
+        <createTable tableName="SUPPORT">
+            <column name="invoice_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" foreignKeyName="fk_infrastructure_deployment_invoice" references="INVOICE(id)"/>
+            </column>
+            <column name="support_type" type="VARCHAR(100)"/>
+            <column name="subscription_id" type="BIGINT">
+                <constraints foreignKeyName="fk_support_subscription" references="SUBSCRIPTION(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2018-10-22_create_SERVER_INSTANCE" author="Alexander.Sawko">
+        <createTable tableName="SERVER_INSTANCE">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="location" type="VARCHAR(100)"/>
+            <column name="model" type="VARCHAR(100)"/>
+            <column name="infrastructure_id" type="BIGINT">
+                <constraints foreignKeyName="fk_server_instance_infrastructure" references="INFRASTRUCTURE(invoice_id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2018-10-22_create_SERVER_INSTANCE_PARAMETER" author="Alexander.Sawko">
+        <createTable tableName="SERVER_INSTANCE_PARAMETER">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="location" type="VARCHAR(100)"/>
+            <column name="model" type="VARCHAR(100)"/>
+            <column name="server_list_parameter_id" type="BIGINT">
+                <constraints foreignKeyName="fk_server_instance_parameter_invoice_parameters" references="INVOICE_PARAMETERS(parameter_id)"/>
+            </column>
+        </createTable>
+    </changeSet>
 </databaseChangeLog>

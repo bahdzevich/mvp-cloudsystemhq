@@ -1,6 +1,6 @@
 package com.cloudsystemhq.service.impl;
 
-import com.cloudsystemhq.model.domain.InfluenceOnInvoice;
+import com.cloudsystemhq.model.domain.InfluenceOnPrice;
 import com.cloudsystemhq.repository.InfluenceOnInvoiceRepository;
 import com.cloudsystemhq.repository.ResponseRepository;
 import com.cloudsystemhq.service.IInfluenceOnInvoiceService;
@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.Collections;
 import java.util.Optional;
 
 
@@ -28,9 +29,9 @@ public class InfluenceOnInvoiceServiceImpl implements IInfluenceOnInvoiceService
     }
 
     @Override
-    public Optional<InfluenceOnInvoice> create(Long responseId, InfluenceOnInvoice influenceOnInvoice) {
+    public Optional<InfluenceOnPrice> create(Long responseId, InfluenceOnPrice influenceOnInvoice) {
         return responseRepository.findById(responseId).map(response -> {
-            response.setInfluenceOnInvoice(influenceOnInvoice);
+            response.setInfluenceOnPrice(Collections.singleton(influenceOnInvoice));
             influenceOnInvoice.setResponse(response);
             responseRepository.save(response);
             return influenceOnInvoice;  // id == null, because returned object not persisted yet
@@ -38,7 +39,7 @@ public class InfluenceOnInvoiceServiceImpl implements IInfluenceOnInvoiceService
     }
 
     @Override
-    public Optional<InfluenceOnInvoice> findInfluenceByResponseId(Long responseId) {
+    public Optional<InfluenceOnPrice> findInfluenceByResponseId(Long responseId) {
         if (!responseRepository.existsById(responseId)){
             LOGGER.warn("There is no response with id=" + responseId);
         }
@@ -46,20 +47,20 @@ public class InfluenceOnInvoiceServiceImpl implements IInfluenceOnInvoiceService
     }
 
     @Override
-    public Optional<InfluenceOnInvoice> update(final Long responseId, final InfluenceOnInvoice influenceOnInvoice) {
+    public Optional<InfluenceOnPrice> update(final Long responseId, final InfluenceOnPrice influenceOnInvoice) {
         if(!responseRepository.existsById(responseId)) {
             LOGGER.warn("There is no response with id=" + responseId);
         }
         return influenceRepository.findById(responseId).map(persistedInfluence -> {
-            persistedInfluence.setInvoiceParameters(influenceOnInvoice.getInvoiceParameters());
-            persistedInfluence.setPriceDependencies(influenceOnInvoice.getPriceDependencies());
+//            persistedInfluence.setInvoiceParameters(influenceOnInvoice.getInvoiceParameters());
+//            persistedInfluence.setPriceDependencies(influenceOnInvoice.getPriceDependencies());
             persistedInfluence.setResponse(influenceOnInvoice.getResponse());
             return influenceRepository.save(persistedInfluence);
         });
     }
 
     @Override
-    public Optional<InfluenceOnInvoice> delete(final Long responseId) {
+    public Optional<InfluenceOnPrice> delete(final Long responseId) {
         Assert.notNull(responseId, "Response id is null.");
         if(!responseRepository.existsById(responseId)) {
             LOGGER.warn("There is no response with id=" + responseId);

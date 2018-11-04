@@ -40,8 +40,9 @@ public class ResponseServiceImpl implements IResponseService{
             LOGGER.warn("There is no question with id=" + questionId);
         }
         return questionRepository.findById(questionId).map(question -> {
-            if (response.getInfluenceOnInvoice() != null){
-                response.getInfluenceOnInvoice().setResponse(response);
+            if (response.getInfluenceOnPrice() != null){
+                response.getInfluenceOnPrice()
+                        .forEach(influenceOnPrice -> influenceOnPrice.setResponse(response));
             }
             question.getResponses().add(response);
             response.setQuestion(question);
@@ -64,8 +65,7 @@ public class ResponseServiceImpl implements IResponseService{
         }
         return responseRepository.findById(responseId).map(persistedResponse -> {
             persistedResponse.setText(response.getText());
-            persistedResponse.setValue(response.getValue());
-            persistedResponse.setInfluenceOnInvoice(response.getInfluenceOnInvoice());
+            persistedResponse.setInfluenceOnPrice(response.getInfluenceOnPrice());
             return responseRepository.save(persistedResponse);
         });
     }

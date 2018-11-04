@@ -32,8 +32,9 @@ public class QuestionServiceImpl implements IQuestionService{
             question.getResponses().forEach(response -> {
                 response.setQuestion(question);
                 question.getResponses().add(response);
-                if (response.getInfluenceOnInvoice() != null){
-                    response.getInfluenceOnInvoice().setResponse(response);
+                if (response.getInfluenceOnPrice() != null){
+                    response.getInfluenceOnPrice()
+                            .forEach(influenceOnPrice -> influenceOnPrice.setResponse(response));
                 }
             });
         }
@@ -78,7 +79,7 @@ public class QuestionServiceImpl implements IQuestionService{
     private Function<Question, Question> updateQuestion(final Question updatedQuestion) {
         return (persistedQuestion) -> {
             persistedQuestion.setTitle(updatedQuestion.getTitle());
-            persistedQuestion.setType(updatedQuestion.getType());
+            persistedQuestion.setResponseType(updatedQuestion.getResponseType());
             persistedQuestion.getResponses().clear();
             persistedQuestion.getResponses()
                     .addAll(
@@ -86,8 +87,9 @@ public class QuestionServiceImpl implements IQuestionService{
                             .stream()                                                  // 'question' column in Response object
                             .peek(response -> {
                                 response.setQuestion(persistedQuestion);
-                                if(response.getInfluenceOnInvoice() != null) {
-                                    response.getInfluenceOnInvoice().setResponse(response);
+                                if(response.getInfluenceOnPrice() != null) {
+                                    response.getInfluenceOnPrice()
+                                            .forEach(influenceOnPrice -> influenceOnPrice.setResponse(response));
                                 }
                             }) // violates not-null constraint
                             .collect(Collectors.toSet())                               // In bidirectional association we are responsible for handling consistency
