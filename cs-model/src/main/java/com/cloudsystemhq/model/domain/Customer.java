@@ -1,6 +1,7 @@
 package com.cloudsystemhq.model.domain;
 
 import com.cloudsystemhq.model.domain.invoice.Invoice;
+import com.cloudsystemhq.model.domain.order.Order;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,7 @@ import java.util.Set;
 @Getter
 @Setter
 @EqualsAndHashCode(exclude = "roles")
-@ToString(exclude = {"roles","invoices"})
+@ToString(exclude = {"roles"})
 public class Customer {
 
   @Id
@@ -25,6 +26,7 @@ public class Customer {
   private String phone;
   private String password;
   private Boolean confirmed;
+  private Double discount;
 
   @ManyToMany(
       fetch = FetchType.LAZY,
@@ -37,4 +39,7 @@ public class Customer {
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer", orphanRemoval = true)
   private Set<Invoice> invoices = new HashSet<>();
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer", orphanRemoval = true)
+  private Set<Order> orders = new HashSet<>();
 }

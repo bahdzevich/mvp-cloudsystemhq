@@ -22,14 +22,15 @@ public class Invoice {
     @JsonIgnore
     private Customer customer;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "invoice")
-    private Infrastructure infrastructure;
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="infrastructure_price_id")
+    private InfrastructurePrice infrastructurePrice;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "invoice")
-    private InfrastructureDeployment infrastructureDeployment;
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="deployment_price_id")
+    private DevopsPrice devopsPrice;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL, mappedBy = "invoice")
-    private Support support;
-
-    private Double totalPrice;
+    @OneToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="support_price_id")
+    private SupportPrice supportPrice;
 }

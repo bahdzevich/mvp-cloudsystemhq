@@ -30,7 +30,7 @@ public class Question{
     private String title;
 
     @Enumerated(EnumType.STRING)
-    private QuestionType type;
+    private ResponseType responseType;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "question", orphanRemoval = true)
     private Set<Response> responses = new HashSet<>();

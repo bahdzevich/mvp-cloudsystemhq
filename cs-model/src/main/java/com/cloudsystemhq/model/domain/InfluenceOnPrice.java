@@ -4,42 +4,43 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.math.BigDecimal;
 
 @Entity
 @Getter
 @Setter
+@ToString(exclude = "response")
+@EqualsAndHashCode
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id",
-        scope = Response.class
+        property = "response_id",
+        scope = InfluenceOnPrice.class
 )
-@ToString(exclude = "question")
-public class Response {
+public class InfluenceOnPrice {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String text;
+    private Integer quantity;
+    private Double coefficient;
+    private BigDecimal pricePerUnit;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_id", nullable = false)
-    @JsonIgnore
-    private Question question;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="next_question_id")
-    private Question nextQuestion;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "response", orphanRemoval = true)
-    private Set<InfluenceOnPrice> influenceOnPrice = new HashSet<>();
+    private BigDecimal extraPriceForSection;
 
     @Enumerated(EnumType.STRING)
-    private PriceCountingMethod priceCountingMethod;
+    private InvoiceSection invoiceSection;
+
+    @Enumerated(EnumType.STRING)
+    private OperationType operationType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "response_id", nullable = false)
+    @JsonIgnore
+    private Response response;
 }

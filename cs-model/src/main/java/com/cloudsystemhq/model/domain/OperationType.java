@@ -1,4 +1,4 @@
-package com.cloudsystemhq.model.domain.invoice;
+package com.cloudsystemhq.model.domain;
 
 public enum OperationType {
     MULTIPLICATION, ADDITION

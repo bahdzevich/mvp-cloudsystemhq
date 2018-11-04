@@ -1,4 +1,4 @@
-package com.cloudsystemhq.model.domain.invoice;
+package com.cloudsystemhq.model.domain.order;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -7,24 +7,27 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
-
 @Entity
 @Getter
 @Setter
-@ToString(exclude = "invoice")
-public class Support {
+@ToString
+public class SupportInfo {
    @Id
    private Long id;
 
-   @Enumerated(EnumType.STRING)
+   @ManyToOne
+   @JoinColumn(name = "support_type_id")
    private SupportType supportType;
 
-   @OneToOne(fetch = FetchType.LAZY, cascade =  CascadeType.ALL)
+   @ManyToOne
    @JoinColumn(name = "subscription_id")
    private Subscription subscription;
 
-   @OneToOne(fetch = FetchType.LAZY, optional = false)
+   @OneToOne(fetch = FetchType.LAZY)
    @MapsId
    @JsonIgnore
-   private Invoice invoice;
+   private Order order;
+
+//   private boolean isActiveSubscription;
+//   private LocalDate startSubscriptionDate;
 }

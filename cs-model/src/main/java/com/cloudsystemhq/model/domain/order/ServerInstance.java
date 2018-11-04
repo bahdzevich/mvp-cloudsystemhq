@@ -1,4 +1,4 @@
-package com.cloudsystemhq.model.domain.invoice;
+package com.cloudsystemhq.model.domain.order;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,11 +13,11 @@ import javax.persistence.Id;
 @Getter
 @Setter
 @ToString
-public class ServerInstanceParameter {
+public class ServerInstance {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     private String location;
     private String model;
+    private Integer instanceAmount;
 }
