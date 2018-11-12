@@ -1,0 +1,43 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+}
+
+@keyframes loading {
+  from {
+    transform: rotate(0deg);
+  }
+
+  10% {
+    transform: rotate(-20deg);
+  }
+
+  50% {
+    transform: rotate(36deg);
+  }
+
+  60% {
+    transform: rotate(0deg);
+  }
+
+  90% {
+    transform: rotate(36deg);
+  }
+
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+}
