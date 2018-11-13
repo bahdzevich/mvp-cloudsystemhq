@@ -1,9 +1,12 @@
 package com.cloudsystemhq.service.impl;
 
 import com.cloudsystemhq.model.domain.Response;
+import com.cloudsystemhq.model.dto.request.ResponseRequestDto;
+import com.cloudsystemhq.model.dto.response.ResponseResponseDto;
 import com.cloudsystemhq.repository.QuestionRepository;
 import com.cloudsystemhq.repository.ResponseRepository;
 import com.cloudsystemhq.service.IResponseService;
+import com.cloudsystemhq.service.util.mapping.ResponseMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,33 +15,46 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
-public class ResponseServiceImpl implements IResponseService{
+public class ResponseServiceImpl
+        extends AbstractBaseServiceImpl<Response, ResponseRequestDto, ResponseResponseDto, Long>
+        implements IResponseService{
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ResponseServiceImpl.class.getName());
     private final ResponseRepository responseRepository;
     private final QuestionRepository questionRepository;
 
     @Autowired
-    public ResponseServiceImpl(ResponseRepository responseRepository, QuestionRepository questionRepository){
-        this.responseRepository = responseRepository;
+    public ResponseServiceImpl(
+            ResponseRepository repository,
+            ResponseMapper mapper,
+            QuestionRepository questionRepository){
+        super(repository, mapper);
+        this.responseRepository = repository;
         this.questionRepository = questionRepository;
     }
 
     @Override
-    public Optional<List<Response>> getResponsesByQuestionId(final Long questionId) {
+    public List<ResponseResponseDto> getResponsesByQuestionId(final Long questionId) {
         if (!questionRepository.existsById(questionId)){
             LOGGER.warn("There is no question with id=" + questionId);
         }
-        return responseRepository.findResponsesByQuestionId(questionId);
+        return responseRepository.findResponsesByQuestionId(questionId)
+                .stream()
+                .map(mapper::convertToDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Response> create(final Long questionId, final Response response) {
+    @Transactional
+    public Optional<ResponseResponseDto> create(final Long questionId, final ResponseRequestDto responseRequestDto) {
         if (!questionRepository.existsById(questionId)){
             LOGGER.warn("There is no question with id=" + questionId);
         }
+        Response response = mapper.convertToEntity(responseRequestDto);
         return questionRepository.findById(questionId).map(question -> {
             if (response.getInfluenceOnPrice() != null){
                 response.getInfluenceOnPrice()
@@ -47,38 +63,36 @@ public class ResponseServiceImpl implements IResponseService{
             question.getResponses().add(response);
             response.setQuestion(question);
             questionRepository.save(question);
-            return response; // id == null, because returned object not persisted yet
+            return mapper.convertToDto(response); // id == null, because returned object not persisted yet
         });
     }
 
-    public Optional<Response> findOne(final Long questionId, final Long responseId) {
+    public Optional<ResponseResponseDto> findOne(final Long responseId) {
+        return super.findOne(responseId);
+    }
+
+    @Transactional
+    public Optional<ResponseResponseDto> update(final Long questionId, final Long responseId,
+                                                final ResponseRequestDto responseRequestDto) {
         if (!questionRepository.existsById(questionId)){
             LOGGER.warn("There is no question with id=" + questionId);
         }
-        return responseRepository.findById(responseId);
+        return super.update(responseId, responseRequestDto);
+    }
+
+    @Transactional
+    public Optional<ResponseResponseDto> delete(final Long responseId) {
+        return super.delete(responseId);
     }
 
     @Override
-    public Optional<Response> update(final Long questionId, final Long responseId, final Response response) {
-        if (!questionRepository.existsById(questionId)){
-            LOGGER.warn("There is no question with id=" + questionId);
-        }
-        return responseRepository.findById(responseId).map(persistedResponse -> {
+    Function<Response, Response> updateEntity(Response response) {
+        return persistedResponse -> {
             persistedResponse.setText(response.getText());
             persistedResponse.setInfluenceOnPrice(response.getInfluenceOnPrice());
+            persistedResponse.setNextQuestion(response.getNextQuestion());
+            persistedResponse.setPriceCountingMethod(response.getPriceCountingMethod());
             return responseRepository.save(persistedResponse);
-        });
-    }
-
-    @Override
-    @Transactional
-    public Optional<Response> delete(final Long questionId, final Long responseId) {
-        if (!questionRepository.existsById(questionId)){
-            LOGGER.warn("There is no question with id=" + questionId);
-        }
-        return responseRepository.findById(responseId).map(response -> {
-            responseRepository.delete(response);
-            return response;
-        });
+        };
     }
 }

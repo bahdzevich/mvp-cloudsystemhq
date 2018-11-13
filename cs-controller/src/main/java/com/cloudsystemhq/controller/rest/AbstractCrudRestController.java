@@ -2,9 +2,9 @@ package com.cloudsystemhq.controller.rest;
 
 import com.cloudsystemhq.service.IBaseService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.Serializable;
 import java.util.List;
@@ -29,21 +29,18 @@ public abstract class AbstractCrudRestController<
         this.service = service;
     }
 
-    @PostMapping
-    public ResponseEntity<RESPONSE> create(@RequestBody REQUEST request) {
+    public ResponseEntity<RESPONSE> create(REQUEST request) {
         RESPONSE response = service.create(request);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/{id:[0-9]+}")
-    public ResponseEntity<RESPONSE> findOne(@PathVariable PK id) {
+    public ResponseEntity<RESPONSE> findOne(PK id) {
         return service
                 .findOne(id)
                 .map(response -> new ResponseEntity<>(response, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping
     public ResponseEntity<List<RESPONSE>> findAll() {
         List<RESPONSE> responseList = service.findAll();
         return new ResponseEntity<>(responseList, HttpStatus.OK);
@@ -57,8 +54,7 @@ public abstract class AbstractCrudRestController<
     //    return new ResponseEntity<>(list, HttpStatus.OK);
     //  }
 
-    @PutMapping(value = "/{id:[0-9]+}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<RESPONSE> update(@PathVariable PK id, @RequestBody REQUEST request) {
+    public ResponseEntity<RESPONSE> update(PK id, REQUEST request) {
         return service
                 .update(id, request)
                 .map(response -> new ResponseEntity<>(response, HttpStatus.OK))

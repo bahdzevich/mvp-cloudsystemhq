@@ -1,6 +1,8 @@
 package com.cloudsystemhq.controller.rest.impl;
 
-import com.cloudsystemhq.model.domain.Response;
+import com.cloudsystemhq.controller.rest.AbstractCrudRestController;
+import com.cloudsystemhq.model.dto.request.ResponseRequestDto;
+import com.cloudsystemhq.model.dto.response.ResponseResponseDto;
 import com.cloudsystemhq.service.IResponseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,53 +14,45 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/question/{questionId:[0-9]+}/response", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-public class ResponseRestController{
-
-    private final IResponseService responseService;
+public class ResponseRestController
+        extends AbstractCrudRestController<ResponseRequestDto, ResponseResponseDto, Long, IResponseService>{
 
     @Autowired
     public ResponseRestController(IResponseService responseService){
-        this.responseService = responseService;
+        super(responseService);
     }
 
-    @PostMapping
-    public ResponseEntity<Response> create(@PathVariable(value = "questionId") Long questionId,
-                                           @RequestBody Response response) {
-
-        return responseService.create(questionId, response)
-                .map(createdResponse ->  new ResponseEntity<>(createdResponse, HttpStatus.CREATED))
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<ResponseResponseDto> create(@PathVariable Long questionId,
+                                                      @RequestBody ResponseRequestDto responseRequestDto) {
+        return service.create(questionId, responseRequestDto)
+                .map(influence -> new ResponseEntity<>(influence, HttpStatus.CREATED))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @Override
+    @GetMapping(value = "/{responseId:[0-9]+}")
+    public ResponseEntity<ResponseResponseDto> findOne(@PathVariable Long responseId) {
+        return super.findOne(responseId);
     }
 
     @GetMapping
-    public ResponseEntity<List<Response>> findAll(@PathVariable(value = "questionId") Long questionId) {
-        return responseService.getResponsesByQuestionId(questionId)
-                .map(responses -> new ResponseEntity<>(responses,HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    public ResponseEntity<List<ResponseResponseDto>> findResponsesByQuestion(@PathVariable(value = "questionId") Long questionId) {
+        return ResponseEntity.ok(service.getResponsesByQuestionId(questionId));
     }
 
-    @GetMapping(value = "/{responseId:[0-9]+}")
-    public ResponseEntity<Response> findOne(@PathVariable(value = "questionId") Long questionId,
-                                                      @PathVariable(value = "responseId") Long responseId) {
-        return responseService.findOne(questionId, responseId)
-                .map(response -> new ResponseEntity<>(response,HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    @Override
+    @DeleteMapping(value = "/{responseId:[0-9]+}")
+    public ResponseEntity<ResponseResponseDto> delete(@PathVariable Long responseId) {
+        return super.delete(responseId);
     }
 
     @PutMapping(value = "/{responseId:[0-9]+}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Response> update(@PathVariable(value = "questionId") Long questionId,
+    public ResponseEntity<ResponseResponseDto> update(@PathVariable(value = "questionId") Long questionId,
                                            @PathVariable(value = "responseId") Long responseId,
-                                           @RequestBody Response response){
-        return responseService.update(questionId, responseId, response)
+                                           @RequestBody ResponseRequestDto response){
+        return service.update(questionId, responseId, response)
                 .map(updatedResponse -> new ResponseEntity<>(updatedResponse,HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @DeleteMapping(value = "/{responseId:[0-9]+}")
-    public ResponseEntity<Response> delete(@PathVariable(value = "questionId") Long questionId,
-                                           @PathVariable(value = "responseId") Long responseId) {
-       return responseService.delete(questionId, responseId)
-               .map(deletedRequest -> new ResponseEntity<>(deletedRequest,HttpStatus.OK))
-               .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

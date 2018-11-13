@@ -19,7 +19,7 @@ public class SupportType {
 
     @Column(unique=true ,nullable=false)
     private String type;
-    private Boolean dayAndNight; //Looks shitty
+    private Boolean roundTheClock;
     private Boolean onlyWorkingHours;
     private Boolean chat;
     private Boolean email;

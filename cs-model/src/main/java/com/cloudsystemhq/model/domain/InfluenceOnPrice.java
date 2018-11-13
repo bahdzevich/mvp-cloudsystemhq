@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "response_id",
+        property = "id",
         scope = InfluenceOnPrice.class
 )
 public class InfluenceOnPrice {

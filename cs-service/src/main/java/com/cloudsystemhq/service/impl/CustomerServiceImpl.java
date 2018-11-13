@@ -7,15 +7,19 @@ import com.cloudsystemhq.repository.CustomerRepository;
 import com.cloudsystemhq.security.service.CustomerRegistrationService;
 import com.cloudsystemhq.service.ICustomerService;
 import com.cloudsystemhq.service.util.mapping.CustomerMapper;
-import java.util.function.Function;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
+
+import javax.transaction.Transactional;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
-public class CustomerServiceImpl extends
-    AbstractBaseServiceImpl<Customer, CustomerRequestDto, CustomerResponseDto, Long> implements
-    ICustomerService {
+public class CustomerServiceImpl
+        extends AbstractBaseServiceImpl<Customer, CustomerRequestDto, CustomerResponseDto, Long>
+        implements ICustomerService {
 
-  //  private final CustomerRepository customerRepository;
   private final CustomerRegistrationService registrationService;
 
 
@@ -27,47 +31,26 @@ public class CustomerServiceImpl extends
     this.registrationService = registrationService;
   }
 
-  /*@Override
-  public Customer create(final Customer customer) {
-    Assert.notNull(customer, "Admin is null.");
-    return registrationService.createCustomer(customer);
+  @Override
+  @Transactional
+  public CustomerResponseDto create(final CustomerRequestDto customerRequestDto) {
+    Assert.notNull(customerRequestDto, "Admin is null.");
+    Customer savedCustomer = registrationService.createCustomer(mapper.convertToEntity(customerRequestDto));
+    return mapper.convertToDto(savedCustomer);
   }
 
-  @Override
-  public Optional<Customer> findOne(final Long id) {
-    Assert.notNull(id, "Admin id is null.");
-    return customerRepository.findById(id);
-  }
 
   @Override
-  public List<Customer> findAll() {
-    return customerRepository.findAll();
-  }
-
-  @Override
-  public Page<Customer> findPage(final Integer page, final Integer size) {
-    Assert.notNull(page, "Page number is null.");
-    Assert.notNull(size, "Page size is null.");
-    return customerRepository.findAll(PageRequest.of(page, size));
+  @Transactional
+  public Optional<CustomerResponseDto> update(final Long id, final CustomerRequestDto customerRequestDto) {
+    return super.update(id,customerRequestDto);
   }
 
   @Override
   @Transactional
-  public Optional<Customer> update(final Long id, final Customer customer) {
-    Assert.notNull(id, "Customer id is null.");
-    Assert.notNull(customer, "Customer is null.");
-    return customerRepository.findById(id).map(updateUser(customer));
+  public Optional<CustomerResponseDto> delete(final Long id) {
+    return super.delete(id);
   }
-
-  @Override
-  @Transactional
-  public Optional<Customer> delete(final Long id) {
-    Assert.notNull(id, "Customer id is null.");
-    Optional<Customer> userOptional = customerRepository.findById(id);
-    userOptional.ifPresent(customerRepository::delete);
-    return userOptional;
-  }
-*/
 
   @Override
   Function<Customer, Customer> updateEntity(final Customer newEntity) {
@@ -75,6 +58,23 @@ public class CustomerServiceImpl extends
       persistedCustomer.setEmail(newEntity.getEmail());
       persistedCustomer.setName(newEntity.getName());
       persistedCustomer.setPhone(newEntity.getPhone());
+      persistedCustomer.setDiscount(newEntity.getDiscount());
+      persistedCustomer.getInvoices().clear();
+      persistedCustomer.getInvoices()
+              .addAll(
+                      newEntity.getInvoices()
+                              .stream()
+                              .peek(invoice -> invoice.setCustomer(persistedCustomer)) // violates not-null constraint
+                              .collect(Collectors.toSet())
+              );
+      persistedCustomer.getOrders().clear();
+      persistedCustomer.getOrders()
+              .addAll(
+                      newEntity.getOrders()
+                              .stream()
+                              .peek(order -> order.setCustomer(persistedCustomer))
+                              .collect(Collectors.toSet())
+      );
       return persistedCustomer;
     };
   }

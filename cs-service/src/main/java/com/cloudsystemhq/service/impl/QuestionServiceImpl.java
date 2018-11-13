@@ -1,11 +1,12 @@
 package com.cloudsystemhq.service.impl;
 
 import com.cloudsystemhq.model.domain.Question;
+import com.cloudsystemhq.model.dto.request.QuestionRequestDto;
+import com.cloudsystemhq.model.dto.response.QuestionResponseDto;
 import com.cloudsystemhq.repository.QuestionRepository;
 import com.cloudsystemhq.service.IQuestionService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.cloudsystemhq.service.util.mapping.QuestionMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -16,18 +17,22 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
-public class QuestionServiceImpl implements IQuestionService{
+public class QuestionServiceImpl
+        extends AbstractBaseServiceImpl<Question, QuestionRequestDto, QuestionResponseDto, Long>
+        implements IQuestionService{
 
-    private final QuestionRepository questionRepository;
 
-    @Autowired
-    public QuestionServiceImpl(QuestionRepository questionRepository){
-        this.questionRepository = questionRepository;
+    public QuestionServiceImpl(
+            QuestionRepository repository,
+            QuestionMapper mapper) {
+        super(repository,mapper);
     }
 
     @Override
-    public Question create(final Question question) {
-        Assert.notNull(question, "Question is null.");
+    @Transactional
+    public QuestionResponseDto create(final QuestionRequestDto questionRequestDto) {
+        Assert.notNull(questionRequestDto, "Question is null.");
+        Question question = mapper.convertToEntity(questionRequestDto);
         if (question.getResponses() != null){
             question.getResponses().forEach(response -> {
                 response.setQuestion(question);
@@ -38,45 +43,39 @@ public class QuestionServiceImpl implements IQuestionService{
                 }
             });
         }
-        return questionRepository.save(question);
+        Question savedQuestion = repository.save(question);
+        return mapper.convertToDto(savedQuestion);
     }
 
     @Override
-    public Optional<Question> findOne(final Long id) {
-        Assert.notNull(id, "Question id is null.");
-        return questionRepository.findById(id);
+    public Optional<QuestionResponseDto> findOne(final Long id) {
+        return super.findOne(id);
     }
 
     @Override
-    public List<Question> findAll() {
-        return questionRepository.findAll();
+    public List<QuestionResponseDto> findAll() {
+        return super.findAll();
     }
 
     @Override
-    public Page<Question> findPage(final Integer page, final Integer size) {
-        Assert.notNull(page, "Page number is null.");
-        Assert.notNull(size, "Size number is null.");
-        return questionRepository.findAll(PageRequest.of(page, size));
+    public Page<QuestionResponseDto> findPage(final Integer page, final Integer size) {
+        return super.findPage(page,size);
     }
 
     @Override
     @Transactional
-    public Optional<Question> update(final Long id, final Question question) {
-        Assert.notNull(id, "Question id is null.");
-        Assert.notNull(question, "Question is null.");
-        return questionRepository.findById(id).map(updateQuestion(question));
+    public Optional<QuestionResponseDto> update(final Long id, final QuestionRequestDto question) {
+        return super.update(id, question);
     }
 
     @Override
     @Transactional
-    public Optional<Question> delete(Long id) {
-        Assert.notNull(id, "Question id is null.");
-        Optional<Question> questionOptional = questionRepository.findById(id);
-        questionOptional.ifPresent(questionRepository::delete);
-        return questionOptional;
+    public Optional<QuestionResponseDto> delete(final Long id) {
+        return super.delete(id);
     }
 
-    private Function<Question, Question> updateQuestion(final Question updatedQuestion) {
+    @Override
+    Function<Question, Question> updateEntity(final Question updatedQuestion) {
         return (persistedQuestion) -> {
             persistedQuestion.setTitle(updatedQuestion.getTitle());
             persistedQuestion.setResponseType(updatedQuestion.getResponseType());
@@ -91,10 +90,10 @@ public class QuestionServiceImpl implements IQuestionService{
                                     response.getInfluenceOnPrice()
                                             .forEach(influenceOnPrice -> influenceOnPrice.setResponse(response));
                                 }
-                            }) // violates not-null constraint
+                            })                                                          // violates not-null constraint
                             .collect(Collectors.toSet())                               // In bidirectional association we are responsible for handling consistency
                     );
-            return questionRepository.save(persistedQuestion);
+            return persistedQuestion;
         };
     }
 }
