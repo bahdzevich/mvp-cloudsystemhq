@@ -1,5 +1,5 @@
 package com.cloudsystemhq.model.domain;
 
-public enum ResponseType {
+public enum AnswerType {
     RADIO_BUTTON, TEXT, CHECKBOX
 }

@@ -4,16 +4,20 @@ import com.cloudsystemhq.controller.rest.AbstractCrudRestController;
 import com.cloudsystemhq.model.dto.request.InfluenceOnPriceRequestDto;
 import com.cloudsystemhq.model.dto.response.InfluenceOnPriceResponseDto;
 import com.cloudsystemhq.service.IInfluenceOnPriceService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api/question/{questionId:[0-9]+}/response/{responseId:[0-9]+}/influence",
+@RequestMapping(value = "/api/question/{questionId:[0-9]+}/answer/{responseId:[0-9]+}/influence",
         produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class InfluenceOnPriceRestController
         extends AbstractCrudRestController<InfluenceOnPriceRequestDto, InfluenceOnPriceResponseDto, Long,

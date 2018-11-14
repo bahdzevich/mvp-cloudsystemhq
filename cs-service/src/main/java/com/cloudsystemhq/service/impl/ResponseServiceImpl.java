@@ -1,26 +1,25 @@
 package com.cloudsystemhq.service.impl;
 
-import com.cloudsystemhq.model.domain.Response;
+import com.cloudsystemhq.model.domain.Answer;
 import com.cloudsystemhq.model.dto.request.ResponseRequestDto;
 import com.cloudsystemhq.model.dto.response.ResponseResponseDto;
 import com.cloudsystemhq.repository.QuestionRepository;
 import com.cloudsystemhq.repository.ResponseRepository;
 import com.cloudsystemhq.service.IResponseService;
 import com.cloudsystemhq.service.util.mapping.ResponseMapper;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 @Service
 public class ResponseServiceImpl
-        extends AbstractBaseServiceImpl<Response, ResponseRequestDto, ResponseResponseDto, Long>
+    extends AbstractBaseServiceImpl<Answer, ResponseRequestDto, ResponseResponseDto, Long>
         implements IResponseService{
 
     private final static Logger LOGGER = LoggerFactory.getLogger(ResponseServiceImpl.class.getName());
@@ -54,16 +53,17 @@ public class ResponseServiceImpl
         if (!questionRepository.existsById(questionId)){
             LOGGER.warn("There is no question with id=" + questionId);
         }
-        Response response = mapper.convertToEntity(responseRequestDto);
+      Answer answer = mapper.convertToEntity(responseRequestDto);
         return questionRepository.findById(questionId).map(question -> {
-            if (response.getInfluenceOnPrice() != null){
-                response.getInfluenceOnPrice()
-                        .forEach(influenceOnPrice -> influenceOnPrice.setResponse(response));
+          if (answer.getInfluenceOnPrice() != null) {
+            answer.getInfluenceOnPrice()
+                .forEach(influenceOnPrice -> influenceOnPrice.setAnswer(answer));
             }
-            question.getResponses().add(response);
-            response.setQuestion(question);
+          question.getAnswers().add(answer);
+          answer.setQuestion(question);
             questionRepository.save(question);
-            return mapper.convertToDto(response); // id == null, because returned object not persisted yet
+          return mapper
+              .convertToDto(answer); // id == null, because returned object not persisted yet
         });
     }
 
@@ -86,12 +86,12 @@ public class ResponseServiceImpl
     }
 
     @Override
-    Function<Response, Response> updateEntity(Response response) {
+    Function<Answer, Answer> updateEntity(Answer answer) {
         return persistedResponse -> {
-            persistedResponse.setText(response.getText());
-            persistedResponse.setInfluenceOnPrice(response.getInfluenceOnPrice());
-            persistedResponse.setNextQuestion(response.getNextQuestion());
-            persistedResponse.setPriceCountingMethod(response.getPriceCountingMethod());
+          persistedResponse.setText(answer.getText());
+          persistedResponse.setInfluenceOnPrice(answer.getInfluenceOnPrice());
+          persistedResponse.setNextQuestion(answer.getNextQuestion());
+          persistedResponse.setAnswerHandlingType(answer.getAnswerHandlingType());
             return responseRepository.save(persistedResponse);
         };
     }

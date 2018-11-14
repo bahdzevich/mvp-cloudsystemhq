@@ -1,12 +1,15 @@
 package com.cloudsystemhq.model.dto.request;
 
+import com.cloudsystemhq.model.domain.Answer;
 import com.cloudsystemhq.model.domain.InvoiceSection;
 import com.cloudsystemhq.model.domain.OperationType;
-import com.cloudsystemhq.model.domain.Response;
-import lombok.*;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -20,5 +23,5 @@ public class InfluenceOnPriceRequestDto implements Serializable {
     private BigDecimal extraPriceForSection;
     private InvoiceSection invoiceSection;
     private OperationType operationType;
-    private Response response;
+  private Answer answer;
 }

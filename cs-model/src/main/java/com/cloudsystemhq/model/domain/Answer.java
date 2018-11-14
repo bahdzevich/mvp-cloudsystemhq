@@ -4,13 +4,23 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -19,10 +29,10 @@ import java.util.Set;
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id",
-        scope = Response.class
+    scope = Answer.class
 )
 @ToString(exclude = "question")
-public class Response {
+public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -37,9 +47,9 @@ public class Response {
     @JoinColumn(name="next_question_id")
     private Question nextQuestion;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "response", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "answer", orphanRemoval = true)
     private Set<InfluenceOnPrice> influenceOnPrice = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
-    private PriceCountingMethod priceCountingMethod;
+    private AnswerHandlingType answerHandlingType;
 }

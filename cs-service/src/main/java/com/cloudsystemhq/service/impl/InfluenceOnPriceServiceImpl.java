@@ -7,15 +7,14 @@ import com.cloudsystemhq.repository.InfluenceOnPriceRepository;
 import com.cloudsystemhq.repository.ResponseRepository;
 import com.cloudsystemhq.service.IInfluenceOnPriceService;
 import com.cloudsystemhq.service.util.mapping.InfluenceOnPriceMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
 @Service
@@ -41,7 +40,7 @@ public class InfluenceOnPriceServiceImpl
         InfluenceOnPrice influenceOnPrice = mapper.convertToEntity(influenceOnPriceRequestDto);
         return responseRepository.findById(responseId).map(response -> {
             response.getInfluenceOnPrice().add(influenceOnPrice);
-            influenceOnPrice.setResponse(response);
+          influenceOnPrice.setAnswer(response);
             responseRepository.save(response);
             return mapper.convertToDto(influenceOnPrice);  // id == null, because returned object not persisted yet
         });
@@ -55,7 +54,7 @@ public class InfluenceOnPriceServiceImpl
     @Override
     public List<InfluenceOnPriceResponseDto> findInfluencesByResponseId(final Long responseId) {
         if (!responseRepository.existsById(responseId)){
-            LOGGER.warn("There is no response with id=" + responseId);
+          LOGGER.warn("There is no answer with id=" + responseId);
         }
         return influenceOnPriceRepository.findByResponseId(responseId)
                 .stream()

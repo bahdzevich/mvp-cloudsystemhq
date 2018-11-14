@@ -1,9 +1,9 @@
 package com.cloudsystemhq.service;
 
-import com.cloudsystemhq.model.domain.Response;
-
+import com.cloudsystemhq.model.domain.Answer;
 import java.util.Set;
 
 public interface IInvoiceCalculationService {
-    Double calculate(Set<Response> customerResponses);
+
+    Double calculate(Set<Answer> customerRespons);
 }
