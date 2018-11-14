@@ -29,8 +29,7 @@ public class Customer {
   private Double discount;
 
   @ManyToMany(
-      fetch = FetchType.LAZY,
-      cascade = CascadeType.REMOVE)
+      fetch = FetchType.LAZY)
   @JoinTable(
       name = "CUSTOMER_ROLE",
       joinColumns = @JoinColumn(name = "customer_id", referencedColumnName = "id"),

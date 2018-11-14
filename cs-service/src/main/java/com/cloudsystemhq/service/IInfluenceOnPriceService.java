@@ -9,7 +9,9 @@ import java.util.Optional;
 
 public interface IInfluenceOnPriceService extends
         IBaseService<InfluenceOnPriceRequestDto, InfluenceOnPriceResponseDto, Long> {
-    Optional<InfluenceOnPriceResponseDto> create(Long responseId,
+    Optional<InfluenceOnPriceResponseDto> create(Long answerId,
                                                  InfluenceOnPriceRequestDto influenceOnPriceRequestDto);
-    List<InfluenceOnPriceResponseDto> findInfluencesByResponseId(Long responseId);
+    Optional<InfluenceOnPriceResponseDto> update(Long answerId, Long influenceId,
+                                                 InfluenceOnPriceRequestDto influenceOnPrice);
+    List<InfluenceOnPriceResponseDto> findInfluencesByAnswerId(Long answerId);
 }

@@ -6,14 +6,13 @@ import com.cloudsystemhq.model.dto.response.QuestionResponseDto;
 import com.cloudsystemhq.repository.QuestionRepository;
 import com.cloudsystemhq.service.IQuestionService;
 import com.cloudsystemhq.service.util.mapping.QuestionMapper;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestionServiceImpl
@@ -47,30 +46,9 @@ public class QuestionServiceImpl
     }
 
     @Override
-    public Optional<QuestionResponseDto> findOne(final Long id) {
-        return super.findOne(id);
-    }
-
-    @Override
-    public List<QuestionResponseDto> findAll() {
-        return super.findAll();
-    }
-
-    @Override
-    public Page<QuestionResponseDto> findPage(final Integer page, final Integer size) {
-        return super.findPage(page,size);
-    }
-
-    @Override
     @Transactional
     public Optional<QuestionResponseDto> update(final Long id, final QuestionRequestDto question) {
         return super.update(id, question);
-    }
-
-    @Override
-    @Transactional
-    public Optional<QuestionResponseDto> delete(final Long id) {
-        return super.delete(id);
     }
 
     @Override
@@ -94,7 +72,7 @@ public class QuestionServiceImpl
                             })                                                          // violates not-null constraint
                             .collect(Collectors.toSet())                               // In bidirectional association we are responsible for handling consistency
                     );
-            return persistedQuestion;
+            return repository.save(persistedQuestion);
         };
     }
 }

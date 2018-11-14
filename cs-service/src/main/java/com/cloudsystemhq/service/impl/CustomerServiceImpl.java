@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.transaction.Transactional;
-import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -39,19 +38,6 @@ public class CustomerServiceImpl
     return mapper.convertToDto(savedCustomer);
   }
 
-
-  @Override
-  @Transactional
-  public Optional<CustomerResponseDto> update(final Long id, final CustomerRequestDto customerRequestDto) {
-    return super.update(id,customerRequestDto);
-  }
-
-  @Override
-  @Transactional
-  public Optional<CustomerResponseDto> delete(final Long id) {
-    return super.delete(id);
-  }
-
   @Override
   Function<Customer, Customer> updateEntity(final Customer newEntity) {
     return (persistedCustomer) -> {
@@ -75,7 +61,7 @@ public class CustomerServiceImpl
                               .peek(order -> order.setCustomer(persistedCustomer))
                               .collect(Collectors.toSet())
       );
-      return persistedCustomer;
+      return repository.save(persistedCustomer);
     };
   }
 }

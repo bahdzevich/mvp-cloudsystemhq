@@ -22,7 +22,7 @@ public class QuestionRestController
     }
 
     @Override
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @PostMapping
     public ResponseEntity<QuestionResponseDto> create(@RequestBody QuestionRequestDto questionRequestDto) {
        return super.create(questionRequestDto);
     }

@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface InfluenceOnPriceRepository extends JpaRepository<InfluenceOnPrice, Long> {
-    List<InfluenceOnPrice> findByResponseId(Long responseId);
+    List<InfluenceOnPrice> findByAnswerId(Long responseId);
 }
