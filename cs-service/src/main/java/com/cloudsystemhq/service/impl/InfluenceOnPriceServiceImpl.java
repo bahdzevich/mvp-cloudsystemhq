@@ -7,15 +7,14 @@ import com.cloudsystemhq.repository.AnswerRepository;
 import com.cloudsystemhq.repository.InfluenceOnPriceRepository;
 import com.cloudsystemhq.service.IInfluenceOnPriceService;
 import com.cloudsystemhq.service.util.mapping.InfluenceOnPriceMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 
 @Service
@@ -37,7 +36,8 @@ public class InfluenceOnPriceServiceImpl
         this.influenceOnPriceRepository = influenceOnInvoiceRepository;
     }
 
-    public Optional<InfluenceOnPriceResponseDto> create(Long answerId, final InfluenceOnPriceRequestDto influenceOnPriceRequestDto) {
+  public Optional<InfluenceOnPriceResponseDto> create(final Long answerId,
+      final InfluenceOnPriceRequestDto influenceOnPriceRequestDto) {
         InfluenceOnPrice influenceOnPrice = mapper.convertToEntity(influenceOnPriceRequestDto);
         return answerRepository.findById(answerId).map(response -> {
             response.getInfluenceOnPrice().add(influenceOnPrice);

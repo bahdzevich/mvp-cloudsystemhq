@@ -1,5 +1,6 @@
 package com.cloudsystemhq.model.domain.invoice;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class DevopsPriceDescription {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

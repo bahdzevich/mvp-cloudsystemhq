@@ -1,13 +1,15 @@
 package com.cloudsystemhq.model.dto.request;
 
 import com.cloudsystemhq.model.domain.Role;
-import com.cloudsystemhq.model.domain.invoice.Invoice;
 import com.cloudsystemhq.model.domain.order.Order;
-import lombok.*;
-
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -22,6 +24,5 @@ public class CustomerRequestDto implements Serializable {
   private Boolean confirmed;
   private Double discount;
   private Set<Role> roles = new HashSet<>();
-  private Set<Invoice> invoices = new HashSet<>();
   private Set<Order> orders = new HashSet<>();
 }

@@ -7,20 +7,18 @@ import com.cloudsystemhq.repository.CustomerRepository;
 import com.cloudsystemhq.security.service.CustomerRegistrationService;
 import com.cloudsystemhq.service.ICustomerService;
 import com.cloudsystemhq.service.util.mapping.CustomerMapper;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import javax.transaction.Transactional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 @Service
 public class CustomerServiceImpl
-        extends AbstractBaseServiceImpl<Customer, CustomerRequestDto, CustomerResponseDto, Long>
-        implements ICustomerService {
+    extends AbstractBaseServiceImpl<Customer, CustomerRequestDto, CustomerResponseDto, Long>
+    implements ICustomerService {
 
   private final CustomerRegistrationService registrationService;
-
 
   public CustomerServiceImpl(
       CustomerRepository repository,
@@ -34,33 +32,37 @@ public class CustomerServiceImpl
   @Transactional
   public CustomerResponseDto create(final CustomerRequestDto customerRequestDto) {
     Assert.notNull(customerRequestDto, "Admin is null.");
-    Customer savedCustomer = registrationService.createCustomer(mapper.convertToEntity(customerRequestDto));
+    Customer savedCustomer = registrationService
+        .createCustomer(mapper.convertToEntity(customerRequestDto));
     return mapper.convertToDto(savedCustomer);
   }
 
   @Override
-  Function<Customer, Customer> updateEntity(final Customer newEntity) {
+  Function<Customer, Customer> updateEntity(final Customer customer) {
     return (persistedCustomer) -> {
-      persistedCustomer.setEmail(newEntity.getEmail());
-      persistedCustomer.setName(newEntity.getName());
-      persistedCustomer.setPhone(newEntity.getPhone());
-      persistedCustomer.setDiscount(newEntity.getDiscount());
-      persistedCustomer.getInvoices().clear();
-      persistedCustomer.getInvoices()
-              .addAll(
-                      newEntity.getInvoices()
-                              .stream()
-                              .peek(invoice -> invoice.setCustomer(persistedCustomer)) // violates not-null constraint
-                              .collect(Collectors.toSet())
-              );
+      persistedCustomer.setEmail(customer.getEmail());
+      persistedCustomer.setName(customer.getName());
+      persistedCustomer.setPhone(customer.getPhone());
+      persistedCustomer.setDiscount(customer.getDiscount());
       persistedCustomer.getOrders().clear();
       persistedCustomer.getOrders()
-              .addAll(
-                      newEntity.getOrders()
-                              .stream()
-                              .peek(order -> order.setCustomer(persistedCustomer))
-                              .collect(Collectors.toSet())
-      );
+          .addAll(
+              customer.getOrders()
+                  .stream()
+                  .peek(order -> {
+                    order.setCustomer(persistedCustomer);
+                    if (order.getSupportInfo() != null) {
+                      order.getSupportInfo().setOrder(order);
+                    }
+                    if (order.getInfrastructureInfo() != null) {
+                      order.getInfrastructureInfo().setOrder(order);
+                    }
+                    order.getInvoices()
+                        .forEach(invoice -> invoice
+                            .setOrder(order)); // violates not-null constraint
+                  })
+                  .collect(Collectors.toList())
+          );
       return repository.save(persistedCustomer);
     };
   }
