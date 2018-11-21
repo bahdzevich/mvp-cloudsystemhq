@@ -54,6 +54,7 @@ public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter
         .and()
         .authorizeRequests()
         .antMatchers(HttpMethod.POST, "/api/customers").permitAll()
+        .antMatchers(HttpMethod.GET, "/api/question/test").permitAll()
         .antMatchers("/api/**").authenticated()
         .anyRequest().authenticated();
         /*

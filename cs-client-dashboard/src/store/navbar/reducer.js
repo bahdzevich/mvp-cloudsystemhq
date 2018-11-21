@@ -15,7 +15,6 @@ const initialState = Immutable({
 export default function reduce(state = initialState, action = {}) {
     switch (action.type) {
         case types.NAVBAR_FETCHED:
-            console.log(action);
             return state.merge({
                 isLoggedIn: action.state.isLoggedIn
             });

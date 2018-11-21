@@ -1,0 +1,1 @@
+export const HOME_PAGE_FETCHED = 'home.HOME_PAGE_FETCHED';
