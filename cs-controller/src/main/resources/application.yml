@@ -24,3 +24,22 @@ security:
   oauth2:
     resource:
       filter-order: 3
+
+smsprovider:
+  providerUri: http://cp.smsp.by
+  user: laggger222@gmail.com
+  timeout: 15
+  senderName: Konsultant
+  api:
+    key: i834282812
+    accountInfoUri: api/user_balance
+    msgSendUri: api/msg_send
+    msgListUri: api/msg_list
+
+otpprovider:
+  providerUri: https://textbelt.com/
+  otpLifetime: 120
+  api:
+    key: textbelt
+    sendOtpUri: otp/generate
+    verifyOtpUri: otp/verify
