@@ -10,6 +10,7 @@ import com.cloudsystemhq.model.domain.order.Urgency;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import javax.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,8 @@ import lombok.ToString;
 @ToString
 public class OrderRequestDto implements Serializable {
 
-  private Boolean isFinished;
+  private boolean finished;
+  @NotNull
   private OrderType orderType;
   private Customer customer;
   private Set<Invoice> invoices = new HashSet<>();

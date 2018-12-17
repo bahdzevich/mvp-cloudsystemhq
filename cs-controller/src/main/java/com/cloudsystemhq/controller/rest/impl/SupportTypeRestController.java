@@ -5,6 +5,7 @@ import com.cloudsystemhq.model.dto.request.SupportTypeRequestDto;
 import com.cloudsystemhq.model.dto.response.SupportTypeResponseDto;
 import com.cloudsystemhq.service.ISupportTypeService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +29,7 @@ public class SupportTypeRestController extends
   @Override
   @PostMapping
   public ResponseEntity<SupportTypeResponseDto> create(
-      @RequestBody SupportTypeRequestDto responseDto) {
+      @Valid @RequestBody SupportTypeRequestDto responseDto) {
     return super.create(responseDto);
   }
 
@@ -47,7 +48,7 @@ public class SupportTypeRestController extends
   @Override
   @PutMapping(value = "/{id:[0-9]+}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public ResponseEntity<SupportTypeResponseDto> update(@PathVariable Long id,
-      @RequestBody SupportTypeRequestDto requestDto) {
+      @Valid @RequestBody SupportTypeRequestDto requestDto) {
     return super.update(id, requestDto);
   }
 

@@ -3,10 +3,14 @@ package com.cloudsystemhq.model.dto.request;
 import com.cloudsystemhq.model.domain.Answer;
 import com.cloudsystemhq.model.domain.InvoiceSection;
 import com.cloudsystemhq.model.domain.OperationType;
-import lombok.*;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
+import javax.validation.constraints.PositiveOrZero;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -14,10 +18,15 @@ import java.math.BigDecimal;
 @EqualsAndHashCode
 @ToString
 public class InfluenceOnPriceRequestDto implements Serializable {
-    private Integer quantity;
-    private Double coefficient;
-    private BigDecimal pricePerUnit;
-    private BigDecimal extraPriceForSection;
+
+  @PositiveOrZero
+  private Integer quantity;
+  @PositiveOrZero
+  private Double coefficient;
+  @PositiveOrZero
+  private BigDecimal pricePerUnit;
+  @PositiveOrZero
+  private BigDecimal extraPriceForSection;
     private InvoiceSection invoiceSection;
     private OperationType operationType;
     private Answer answer;

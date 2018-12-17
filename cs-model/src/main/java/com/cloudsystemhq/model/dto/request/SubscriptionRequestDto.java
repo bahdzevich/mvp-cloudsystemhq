@@ -1,6 +1,7 @@
 package com.cloudsystemhq.model.dto.request;
 
 import java.io.Serializable;
+import javax.validation.constraints.Positive;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,5 +15,6 @@ import lombok.ToString;
 @ToString
 public class SubscriptionRequestDto implements Serializable {
 
-  private Integer numberOfMonth;
+  @Positive
+  private int numberOfMonth;
 }

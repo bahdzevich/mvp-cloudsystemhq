@@ -5,6 +5,7 @@ import com.cloudsystemhq.model.dto.request.CustomerRequestDto;
 import com.cloudsystemhq.model.dto.response.CustomerResponseDto;
 import com.cloudsystemhq.repository.CustomerRepository;
 import com.cloudsystemhq.security.service.CustomerRegistrationService;
+import com.cloudsystemhq.security.service.EntityAlreadyExistsException;
 import com.cloudsystemhq.service.ICustomerService;
 import com.cloudsystemhq.service.IOtpService;
 import com.cloudsystemhq.service.ISmsProviderService;
@@ -30,6 +31,7 @@ public class CustomerServiceImpl
   private final CustomerRegistrationService registrationService;
   private final ISmsProviderService smsProviderService;
   private final IOtpService otpService;
+  private final CustomerRepository customerRepository;
 
   public CustomerServiceImpl(
       CustomerRepository repository,
@@ -39,6 +41,7 @@ public class CustomerServiceImpl
       IOtpService otpService
   ) {
     super(repository, mapper);
+    this.customerRepository = repository;
     this.registrationService = registrationService;
     this.smsProviderService = smsProviderService;
     this.otpService = otpService;
@@ -88,7 +91,7 @@ public class CustomerServiceImpl
     Optional<Customer> customerOptional = this.repository.findById(id);
     if (customerOptional.isPresent()) {
       return otpService.sendOtp(customerOptional.get().getId(), customerOptional.get().getPhone(),
-          "Nuclear launch code: $OTP! Use it to login.");
+          "Nuclear confirmation code: $OTP");
     }
     return new SendOtpResponse(false, null, null, null, "Customer with such id was not found");
   }
@@ -104,10 +107,17 @@ public class CustomerServiceImpl
 
   @Override
   Function<Customer, Customer> updateEntity(final Customer customer) {
+    customerRepository
+        .findCustomerByEmail(customer.getEmail())
+        .ifPresent(entity -> {
+          throw new EntityAlreadyExistsException(
+              String.format("Customer with email: '%s' already exists",
+                  customer.getEmail()));
+        });
     return (persistedCustomer) -> {
-      persistedCustomer.setEmail(customer.getEmail());
+      persistedCustomer.setEmail(customer.getEmail()); //ToDo: additional logic to update email
       persistedCustomer.setName(customer.getName());
-      persistedCustomer.setPhone(customer.getPhone());
+      persistedCustomer.setPhone(customer.getPhone()); //ToDo: additional logic to update phone
       persistedCustomer.setDiscount(customer.getDiscount());
       persistedCustomer.getOrders().clear();
       persistedCustomer.getOrders()

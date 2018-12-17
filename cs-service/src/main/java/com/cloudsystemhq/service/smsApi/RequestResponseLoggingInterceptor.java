@@ -1,4 +1,4 @@
-package com.cloudsystemhq.service.impl;
+package com.cloudsystemhq.service.smsApi;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -10,6 +10,9 @@ import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.util.StreamUtils;
 
+/**
+ * Request and response logging interceptor for debugging purposes
+ */
 public class RequestResponseLoggingInterceptor implements ClientHttpRequestInterceptor {
 
   private final Logger log = LoggerFactory.getLogger(this.getClass());

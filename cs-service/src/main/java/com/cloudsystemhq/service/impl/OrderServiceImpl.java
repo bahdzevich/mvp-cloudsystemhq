@@ -5,6 +5,7 @@ import com.cloudsystemhq.model.dto.request.OrderRequestDto;
 import com.cloudsystemhq.model.dto.response.OrderResponseDto;
 import com.cloudsystemhq.repository.CustomerRepository;
 import com.cloudsystemhq.repository.OrderRepository;
+import com.cloudsystemhq.repository.UrgencyRepository;
 import com.cloudsystemhq.service.IOrderService;
 import com.cloudsystemhq.service.util.mapping.OrderMapper;
 import java.util.List;
@@ -13,9 +14,12 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 @Service
+@PropertySource("classpath:service.properties")
 public class OrderServiceImpl
     extends AbstractBaseServiceImpl<Order, OrderRequestDto, OrderResponseDto, Long>
     implements IOrderService {
@@ -23,14 +27,20 @@ public class OrderServiceImpl
   private final static Logger LOGGER = LoggerFactory.getLogger(OrderServiceImpl.class.getName());
   private final CustomerRepository customerRepository;
   private final OrderRepository orderRepository;
+  private final UrgencyRepository urgencyRepository;
+
+  @Value("${service.default-urgency}")
+  private String defaultUrgency;
 
   public OrderServiceImpl(
       OrderRepository repository,
       CustomerRepository customerRepository,
+      UrgencyRepository urgencyRepository,
       OrderMapper mapper) {
     super(repository, mapper);
     this.customerRepository = customerRepository;
     this.orderRepository = repository;
+    this.urgencyRepository = urgencyRepository;
   }
 
   public Optional<OrderResponseDto> create(final Long customerId,
@@ -47,6 +57,11 @@ public class OrderServiceImpl
       }
       if (order.getInvoices() != null) {
         order.getInvoices().forEach(invoice -> invoice.setOrder(order));
+      }
+      if (order.getUrgency() == null) {
+        order.setUrgency(urgencyRepository.findUrgencyByType(defaultUrgency)
+            .orElseThrow(() -> new RuntimeException(
+                String.format("Default urgency '%s' not found", defaultUrgency))));
       }
       customerRepository.save(customer);
       return mapper
@@ -83,7 +98,7 @@ public class OrderServiceImpl
       persistedOrder.setSupportInfo(order.getSupportInfo());
       persistedOrder.setUrgency(order.getUrgency());
       persistedOrder.setOrderType(order.getOrderType());
-      persistedOrder.setIsFinished(order.getIsFinished());
+      persistedOrder.setFinished(order.getFinished());
       if (order.getInfrastructureInfo() != null) {
         order.getInfrastructureInfo().setOrder(persistedOrder);
       }

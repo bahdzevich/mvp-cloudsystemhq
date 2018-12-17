@@ -5,6 +5,7 @@ import com.cloudsystemhq.model.dto.request.OrderRequestDto;
 import com.cloudsystemhq.model.dto.response.OrderResponseDto;
 import com.cloudsystemhq.service.IOrderService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,7 +31,7 @@ public class OrderRestController extends
 
   @PostMapping
   public ResponseEntity<OrderResponseDto> create(@PathVariable Long customerId,
-      @RequestBody OrderRequestDto orderRequestDto) {
+      @Valid @RequestBody OrderRequestDto orderRequestDto) {
     return service.create(customerId, orderRequestDto)
         .map(order -> new ResponseEntity<>(order, HttpStatus.CREATED))
         .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

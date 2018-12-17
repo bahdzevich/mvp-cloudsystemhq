@@ -5,6 +5,7 @@ import com.cloudsystemhq.model.dto.request.InfrastructureProviderRequestDto;
 import com.cloudsystemhq.model.dto.response.InfrastructureProviderResponseDto;
 import com.cloudsystemhq.service.IInfrastructureProviderService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +29,7 @@ public class InfrastructureProviderRestController extends
   @Override
   @PostMapping
   public ResponseEntity<InfrastructureProviderResponseDto> create(
-      @RequestBody InfrastructureProviderRequestDto responseDto) {
+      @Valid @RequestBody InfrastructureProviderRequestDto responseDto) {
     return super.create(responseDto);
   }
 
@@ -47,7 +48,7 @@ public class InfrastructureProviderRestController extends
   @Override
   @PutMapping(value = "/{id:[0-9]+}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public ResponseEntity<InfrastructureProviderResponseDto> update(@PathVariable Long id,
-      @RequestBody InfrastructureProviderRequestDto requestDto) {
+      @Valid @RequestBody InfrastructureProviderRequestDto requestDto) {
     return super.update(id, requestDto);
   }
 

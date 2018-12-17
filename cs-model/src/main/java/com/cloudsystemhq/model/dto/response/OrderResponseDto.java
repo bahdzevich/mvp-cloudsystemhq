@@ -24,7 +24,7 @@ import lombok.ToString;
 public class OrderResponseDto implements Serializable {
 
   private Long id;
-  private Boolean isFinished;
+  private Boolean finished;
   private OrderType orderType;
   private Customer customer;
   private Set<Answer> answers = new HashSet<>();

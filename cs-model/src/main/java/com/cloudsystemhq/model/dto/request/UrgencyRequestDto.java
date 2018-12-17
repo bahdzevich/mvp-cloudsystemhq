@@ -1,6 +1,8 @@
 package com.cloudsystemhq.model.dto.request;
 
 import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +16,8 @@ import lombok.ToString;
 @ToString
 public class UrgencyRequestDto implements Serializable {
 
+  @NotBlank
   private String type;
-  private Integer hours;
+  @Positive
+  private int hours;
 }

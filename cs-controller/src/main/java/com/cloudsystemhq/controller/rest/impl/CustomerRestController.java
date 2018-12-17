@@ -7,6 +7,7 @@ import com.cloudsystemhq.service.ICustomerService;
 import com.cloudsystemhq.service.smsApi.SendOtpResponse;
 import com.cloudsystemhq.service.smsApi.VerifyOtpResponse;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api/customers", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+@RequestMapping(value = "/api/customer", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
 public class CustomerRestController
     extends
     AbstractCrudRestController<CustomerRequestDto, CustomerResponseDto, Long, ICustomerService> {
@@ -32,7 +33,8 @@ public class CustomerRestController
 
   @Override
   @PostMapping
-  public ResponseEntity<CustomerResponseDto> create(@RequestBody CustomerRequestDto customerRequestDto) {
+  public ResponseEntity<CustomerResponseDto> create(
+      @Valid @RequestBody CustomerRequestDto customerRequestDto) {
     return super.create(customerRequestDto);
   }
 
@@ -61,7 +63,8 @@ public class CustomerRestController
 
   @Override
   @PutMapping(value = "/{id:[0-9]+}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-  public ResponseEntity<CustomerResponseDto> update(@PathVariable Long id, @RequestBody CustomerRequestDto customerRequestDto) {
+  public ResponseEntity<CustomerResponseDto> update(@PathVariable Long id,
+      @Valid @RequestBody CustomerRequestDto customerRequestDto) {
     return super.update(id, customerRequestDto);
   }
 

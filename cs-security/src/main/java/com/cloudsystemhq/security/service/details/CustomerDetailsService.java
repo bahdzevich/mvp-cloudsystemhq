@@ -6,6 +6,10 @@ import com.cloudsystemhq.model.domain.Role;
 import com.cloudsystemhq.repository.CustomerRepository;
 import com.cloudsystemhq.repository.RoleRepository;
 import com.cloudsystemhq.security.service.CustomerRegistrationService;
+import com.cloudsystemhq.security.service.EntityAlreadyExistsException;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.constraints.NotNull;
@@ -70,11 +74,37 @@ public class CustomerDetailsService implements UserDetailsService, CustomerRegis
   public Customer createCustomer(@NotNull Customer customer) {
     Assert.notNull(customer.getEmail(), "Customer email is null.");
     Assert.notNull(customer.getPassword(), "Customer password is null.");
+    PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+    try {
+      String phone = phoneUtil
+          .format(phoneUtil.parse(customer.getPhone(), "US"), PhoneNumberFormat.E164);
+      customer.setPhone(phone);
+    } catch (NumberParseException e) {
+      LOGGER.error(e.getMessage());
+      e.printStackTrace();
+    }
+    checkCustomerUniqueness(customer);
     String encodedPassword = passwordEncoder.encode(customer.getPassword());
     customer.setPassword(encodedPassword);
     Role role = roleRepository.findRoleByName(DEFAULT_ROLE_NAME)
         .orElseThrow(() -> new RuntimeException("Default role not found."));
     customer.getRoles().add(role);
     return customerRepository.save(customer);
+  }
+
+  private void checkCustomerUniqueness(Customer customer) {
+    customerRepository
+        .findCustomerByEmail(customer.getEmail())
+        .ifPresent(existCustomer -> {
+          throw new EntityAlreadyExistsException(
+              String.format("Customer with email '%s' already exists", existCustomer.getEmail()));
+        });
+    customerRepository
+        .findCustomerByPhone(customer.getPhone())
+        .ifPresent(existCustomer -> {
+          throw new EntityAlreadyExistsException(
+              String.format("Customer with phone number '%s' already exists",
+                  existCustomer.getPhone()));
+        });
   }
 }

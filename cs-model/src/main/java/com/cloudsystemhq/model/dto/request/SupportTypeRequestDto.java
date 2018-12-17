@@ -1,6 +1,7 @@
 package com.cloudsystemhq.model.dto.request;
 
 import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,10 +15,11 @@ import lombok.ToString;
 @ToString
 public class SupportTypeRequestDto implements Serializable {
 
+  @NotBlank
   private String type;
-  private Boolean roundTheClock;
-  private Boolean onlyWorkingHours;
-  private Boolean chat;
-  private Boolean email;
-  private Boolean phone;
+  private boolean roundTheClock;
+  private boolean onlyWorkingHours;
+  private boolean chat;
+  private boolean email;
+  private boolean phone;
 }

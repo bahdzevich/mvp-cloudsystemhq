@@ -5,6 +5,7 @@ import com.cloudsystemhq.model.dto.request.UrgencyRequestDto;
 import com.cloudsystemhq.model.dto.response.UrgencyResponseDto;
 import com.cloudsystemhq.service.IUrgencyService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +29,7 @@ public class UrgencyRestConstroller extends
   @Override
   @PostMapping
   public ResponseEntity<UrgencyResponseDto> create(
-      @RequestBody UrgencyRequestDto responseDto) {
+      @Valid @RequestBody UrgencyRequestDto responseDto) {
     return super.create(responseDto);
   }
 
@@ -47,7 +48,7 @@ public class UrgencyRestConstroller extends
   @Override
   @PutMapping(value = "/{id:[0-9]+}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public ResponseEntity<UrgencyResponseDto> update(@PathVariable Long id,
-      @RequestBody UrgencyRequestDto requestDto) {
+      @Valid @RequestBody UrgencyRequestDto requestDto) {
     return super.update(id, requestDto);
   }
 

@@ -2,6 +2,7 @@ package com.cloudsystemhq.controller.handler;
 
 import com.cloudsystemhq.controller.rest.AbstractCrudRestController;
 import com.cloudsystemhq.model.dto.response.MessageDto;
+import com.cloudsystemhq.security.service.EntityAlreadyExistsException;
 import java.time.LocalDateTime;
 import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -37,4 +38,16 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         messageDTO.setPath(httpServletRequest.getRequestURI());
         return new ResponseEntity<>(messageDTO, HttpStatus.UNAUTHORIZED);
     }
+
+  @ExceptionHandler(EntityAlreadyExistsException.class)
+  public ResponseEntity<MessageDto> handleEntityAlreadyExist(Throwable ex,
+      HttpServletRequest httpServletRequest) {
+    LOGGER.warn(ex.getMessage(), ex);
+    MessageDto messageDTO = new MessageDto();
+    messageDTO.setTime(LocalDateTime.now().toString());
+    messageDTO.setStatus(409);
+    messageDTO.setMessage(ex.getMessage());
+    messageDTO.setPath(httpServletRequest.getRequestURI());
+    return new ResponseEntity<>(messageDTO, HttpStatus.CONFLICT);
+  }
 }

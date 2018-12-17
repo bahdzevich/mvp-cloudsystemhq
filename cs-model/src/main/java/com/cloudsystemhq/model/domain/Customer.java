@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -33,7 +34,9 @@ public class Customer {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
   private String name;
+  @Column(unique = true)
   private String email;
+  @Column(unique = true)
   private String phone;
   private String password;
   private Boolean confirmed;

@@ -5,6 +5,7 @@ import com.cloudsystemhq.model.dto.request.SubscriptionRequestDto;
 import com.cloudsystemhq.model.dto.response.SubscriptionResponseDto;
 import com.cloudsystemhq.service.ISubscriptionService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,7 +29,7 @@ public class SubscriptionRestController extends
   @Override
   @PostMapping
   public ResponseEntity<SubscriptionResponseDto> create(
-      @RequestBody SubscriptionRequestDto responseDto) {
+      @Valid @RequestBody SubscriptionRequestDto responseDto) {
     return super.create(responseDto);
   }
 
@@ -47,7 +48,7 @@ public class SubscriptionRestController extends
   @Override
   @PutMapping(value = "/{id:[0-9]+}", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
   public ResponseEntity<SubscriptionResponseDto> update(@PathVariable Long id,
-      @RequestBody SubscriptionRequestDto requestDto) {
+      @Valid @RequestBody SubscriptionRequestDto requestDto) {
     return super.update(id, requestDto);
   }
 

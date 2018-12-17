@@ -40,7 +40,7 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Boolean isFinished;
+  private Boolean finished;
 
     //TODO: think about update order logic
     @Enumerated(EnumType.STRING)
