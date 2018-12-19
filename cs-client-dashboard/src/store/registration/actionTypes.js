@@ -1,0 +1,1 @@
+export const REGISTRATION_FETCHED = 'navbar.REGISTRATION_FETCHED';
