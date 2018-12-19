@@ -9,6 +9,8 @@ const initialState = Immutable({
 
 export default function reduce(state = initialState, action = {}) {
     switch (action.type) {
+        case types.REGISTRATION_DATA_SUBMITTED:
+        case types.LOGIN_DATA_SUBMITTED:
         case types.REGISTRATION_FETCHED:
             return state.merge({
                 login: action.state.login,
@@ -25,7 +27,6 @@ export default function reduce(state = initialState, action = {}) {
                 password: action.state.password,
                 errors: action.state.errors
             });
-        case types.REGISTRATION_DATA_SUBMITTED:
         default:
             return state;
     }

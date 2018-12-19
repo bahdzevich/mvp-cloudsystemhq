@@ -14,6 +14,10 @@ class RegistrationContainer extends Component {
         this.props.dispatch(registrationPageActions.submitRegistrationData(this.props.login, this.props.password));
     }
 
+    login() {
+        this.props.dispatch(registrationPageActions.login(this.props.login, this.props.password));
+    }
+
     updateLogin(login) {
         this.props.dispatch(registrationPageActions.updateLogin(login));
     }
@@ -70,7 +74,13 @@ class RegistrationContainer extends Component {
                             onClick={() => this.registrate()}
                             disabled={this.props.errors.length > 0}
                     >
-                        Submit
+                        Sing Up
+                    </button>
+                    <button className="btn btn-primary"
+                            onClick={() => this.login()}
+                            disabled={this.props.errors.length > 0}
+                    >
+                        Sing In
                     </button>
                 </div>
             </div>

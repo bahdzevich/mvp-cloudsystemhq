@@ -31,8 +31,25 @@ export function submitRegistrationData(login, password) {
     return async (dispatch, getState) => {
         let result = await authService.registrate(login, password);
         console.log(result);
-        let state = {};
+        let state = {
+            login: '',
+            password: '',
+            errors: validateLoginAndPassword('', '')
+        };
         dispatch({type: types.REGISTRATION_DATA_SUBMITTED, state});
+    };
+}
+
+export function login(login, password) {
+    return async (dispatch, getState) => {
+        let result = await authService.login(login, password);
+        console.log(result);
+        let state = {
+            login: '',
+            password: '',
+            errors: validateLoginAndPassword('', '')
+        };
+        dispatch({type: types.LOGIN_DATA_SUBMITTED, state});
     };
 }
 

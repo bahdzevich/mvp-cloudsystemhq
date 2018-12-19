@@ -20,7 +20,8 @@
 }
 
 .registration-button-group {
-  text-align: center;
+  display: flex;
+  justify-content: space-around;
 }
 
 .errors-group {
