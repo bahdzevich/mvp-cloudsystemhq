@@ -11,32 +11,68 @@ class RegistrationContainer extends Component {
     }
 
     registrate() {
-        console.log("reg");
+        this.props.dispatch(registrationPageActions.submitRegistrationData(this.props.login, this.props.password));
     }
 
     updateLogin(login) {
-        console.log("l " + login);
+        this.props.dispatch(registrationPageActions.updateLogin(login));
     }
 
     updatePassword(password) {
-        console.log("p " + password);
+        this.props.dispatch(registrationPageActions.updatePassword(password));
+    }
+
+    buildErrorPanel() {
+        return this.props.errors.length > 0
+            ? (
+                <div className="errors-group">
+                    {this.props.errors.map(error => (
+                        <div className="error-element">
+                            {error}
+                        </div>
+                    ))}
+                </div>
+            )
+            : '';
     }
 
     render() {
         return (
             <div className="registration-container">
-                <div>
+                <div className="registration-title">
                     <h1>Registration</h1>
                 </div>
-                <input type="text"
-                       defaultValue={this.props.login}
-                       onChange={(e) => this.updateLogin(e.target.value)}/>
-                <br/>
-                <input type="text"
-                       defaultValue={this.props.password}
-                       onChange={(e) => this.updatePassword(e.target.value)}/>
-                <br/>
-                <button className="btn btn-primary" onClick={() => this.registrate()}>Submit</button>
+                <div className="row reg-form-group">
+                    <div className="col-4 reg-label-element">
+                        Login:
+                    </div>
+                    <div className="col-8">
+                        <input type="text"
+                               className="form-control"
+                               defaultValue={this.props.login}
+                               onChange={(e) => this.updateLogin(e.target.value)}/>
+                    </div>
+                </div>
+                <div className="row reg-form-group">
+                    <div className="col-4 reg-label-element">
+                        Password:
+                    </div>
+                    <div className="col-8">
+                        <input type="text"
+                               className="form-control"
+                               defaultValue={this.props.password}
+                               onChange={(e) => this.updatePassword(e.target.value)}/>
+                    </div>
+                </div>
+                {this.buildErrorPanel()}
+                <div className="registration-button-group">
+                    <button className="btn btn-primary"
+                            onClick={() => this.registrate()}
+                            disabled={this.props.errors.length > 0}
+                    >
+                        Submit
+                    </button>
+                </div>
             </div>
         );
     }

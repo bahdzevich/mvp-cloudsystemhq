@@ -6,3 +6,30 @@
   border: 1px solid black;
   box-shadow: 5px 2px 2px black;
 }
+
+.reg-form-group {
+  padding-bottom: 10px;
+}
+
+.reg-label-element {
+  padding-top: 7px;
+}
+
+.registration-title {
+  text-align: center;
+}
+
+.registration-button-group {
+  text-align: center;
+}
+
+.errors-group {
+  border: 1px solid #333333;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+.error-element {
+  color: red;
+}

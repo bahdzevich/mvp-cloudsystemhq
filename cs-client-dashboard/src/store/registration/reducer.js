@@ -4,7 +4,7 @@ import * as types from "./actionTypes";
 const initialState = Immutable({
     login: '',
     password: '',
-    errors: []
+    errors: ['login and password must be provided']
 });
 
 export default function reduce(state = initialState, action = {}) {
@@ -15,6 +15,17 @@ export default function reduce(state = initialState, action = {}) {
                 password: action.state.password,
                 errors: action.state.errors
             });
+        case types.LOGIN_UPDATED:
+            return state.merge({
+                login: action.state.login,
+                errors: action.state.errors
+            });
+        case types.PASSWORD_UPDATED:
+            return state.merge({
+                password: action.state.password,
+                errors: action.state.errors
+            });
+        case types.REGISTRATION_DATA_SUBMITTED:
         default:
             return state;
     }
