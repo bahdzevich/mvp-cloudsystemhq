@@ -1,0 +1,246 @@
+.dev-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 10;
+  background-color: #fff;
+  box-shadow: 0 rem(2) rem(6) 0 rgba(53, 53, 53, 0.13);
+  transition: 0.4s ease;
+
+  $span: span;
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: rem(80);
+
+    @media (max-width: 1023px) {
+      height: rem(72);
+    }
+  }
+
+  // &__left {
+  //
+  // }
+
+  &__logo {
+    display: block;
+    width: rem(150);
+    height: rem(40);
+
+    @media (max-width: 1023px) {
+      width: rem(135);
+      height: rem(36);
+    }
+
+    svg {
+      fill: $blueLight;
+
+      .logo-ltd {
+        fill: $black;
+      }
+
+      .logo-hq {
+        fill: $blueBlack;
+      }
+    }
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+  }
+
+  &__menu {
+    display: flex;
+    align-items: center;
+
+    @media (max-width: 1023px) {
+      display: none;
+      position: absolute;
+      top: 4.5rem;
+      left: 0;
+      flex-direction: column;
+      width: 100%;
+      height: calc(100vh - 4.5rem);
+      padding: rem(54) 0;
+      animation-duration: 0.6s;
+      animation-fill-mode: both;
+      animation-name: fadeInTop;
+      overflow: auto;
+      background-color: #fff;
+      z-index: -1;
+    }
+  }
+
+  &__menu-item {
+    margin-right: rem(24);
+
+    @media (max-width: 1023px) {
+      margin-right: 0;
+      margin-bottom: rem(22);
+    }
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+
+  &__menu-link {
+    color: #2e517b;
+
+    @media (min-width: 768px) and (max-width: 1024px) {
+      font-size: rem(24);
+    }
+
+    @media (max-width: 767px) {
+      font-size: rem(22);
+    }
+
+    &:hover {
+      color: $orange;
+    }
+  }
+
+  &__login-wrap {
+    display: flex;
+    margin-left: rem(32);
+
+    @media (max-width: 1023px) {
+      margin-left: 0;
+    }
+  }
+
+  &__login,
+  &__sign-up {
+    width: rem(80);
+    height: rem(32);
+    border: 2px solid $orange;
+    // border-radius: rem(6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__login {
+    color: $black;
+    margin-right: rem(18);
+
+    @media (max-width: 767px) {
+      margin-right: 0;
+    }
+
+    &:hover {
+      background-color: $orange;
+      color: $black;
+    }
+  }
+
+  &__sign-up {
+    background-color: $orange;
+    color: $black;
+
+    @media (max-width: 767px) {
+      display: none;
+    }
+
+    &:hover {
+      background-color: transparent;
+      color: #fff;
+    }
+  }
+
+  &__btn-menu {
+    position: relative;
+    width: rem(30);
+    height: rem(23);
+    margin-left: rem(20);
+    display: block;
+
+    @media (min-width: 1024px) {
+      display: none;
+    }
+
+    #{$span} {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      display: block;
+      background-color: $orange;
+      transition: 0.4s ease;
+
+      &:nth-of-type(1) {
+        top: 0;
+      }
+
+      &:nth-of-type(2) {
+        transform: translate(0, -50%);
+        top: 50%;
+      }
+
+      &:nth-of-type(3) {
+        bottom: 0;
+      }
+    }
+
+    &--open {
+      #{$span} {
+        &:nth-of-type(1) {
+          top: 50%;
+          transform: rotate(-45deg) translate(0, -50%);
+        }
+
+        &:nth-of-type(2) {
+          opacity: 0;
+        }
+
+        &:nth-of-type(3) {
+          bottom: 50%;
+          transform: rotate(45deg) translate(0, 50%);
+        }
+      }
+    }
+  }
+
+  &--open {
+    .dev-header__menu {
+      display: flex;
+    }
+  }
+
+  &--transparent {
+    background-color: transparent;
+    box-shadow: 0 0 0 0 rgba(53, 53, 53, 0);
+
+    .dev-header {
+      &__logo {
+        svg {
+          fill: #fff;
+
+          .logo-hq {
+            fill: $orange;
+          }
+
+          .logo-ltd {
+            fill: #fff;
+          }
+        }
+      }
+
+      &__menu-link {
+        color: #fff;
+
+        &:hover {
+          color: $orange;
+        }
+      }
+
+      &__login {
+        color: #fff;
+      }
+    }
+  }
+}

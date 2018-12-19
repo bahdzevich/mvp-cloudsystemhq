@@ -1,0 +1,167 @@
+.dev-index-banner {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: rem(586);
+  background-color: #999;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  @media (max-width: 767px) {
+    min-height: rem(620);
+  }
+
+  &__content {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    height: 100%;
+    padding-top: rem(120);
+    padding-bottom: rem(60);
+
+    @media (max-width: 1023px) {
+      align-items: center;
+      padding-top: rem(100);
+      padding-bottom: rem(40);
+    }
+  }
+
+  &__items {
+    width: rem(320);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    @media (max-width: 1023px) {
+      display: none;
+    }
+
+    @media (max-width: 767px) {
+      justify-content: flex-start;
+    }
+  }
+
+  &__item {
+    width: 100%;
+    margin-bottom: rem(32);
+    display: flex;
+    align-items: flex-start;
+
+    @media (max-width: 767px) {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &:nth-of-type(1),
+    &:nth-of-type(4) {
+      margin-left: rem(32);
+
+      @media (max-width: 767px) {
+        margin-left: 0;
+      }
+    }
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  &__item-icon {
+    min-width: rem(50);
+    width: rem(50);
+    height: rem(50);
+    margin-right: rem(12);
+    border: 2px solid #fff;
+    border-radius: 50%;
+    opacity: 0.6;
+
+    @media (max-width: 767px) {
+      margin-right: 0;
+      margin-bottom: rem(12);
+    }
+  }
+
+  // &__item-description {
+  //
+  // }
+
+  &__item-title {
+    margin-bottom: rem(4);
+    color: $orange;
+
+    @media (max-width: 767px) {
+      width: 80%;
+      margin: 0 auto 0;
+      text-align: center;
+    }
+  }
+
+  &__item-text {
+    color: #fff;
+
+    @media (max-width: 767px) {
+      display: none;
+    }
+  }
+
+  &__about {
+    width: rem(480);
+
+    @media (max-width: 1023px) {
+      width: 80%;
+      margin: 0 auto;
+    }
+
+    @media (max-width: 767px) {
+      width: 100%;
+    }
+  }
+
+  &__about-title {
+    color: $orange;
+
+    @media (max-width: 1023px) {
+      margin-bottom: rem(8);
+    }
+  }
+
+  &__about-title,
+  &__about-quote,
+  &__about-text {
+    width: 100%;
+    text-align: right;
+
+    @media (max-width: 1023px) {
+      text-align: center;
+    }
+  }
+
+  &__about-quote,
+  &__about-text {
+    max-width: 90%;
+    margin-left: auto;
+    color: #fff;
+
+    @media (max-width: 1023px) {
+      margin: 0 auto;
+    }
+  }
+
+  &__about-quote {
+    margin-bottom: rem(8);
+
+    @media (max-width: 1023px) {
+      margin-bottom: rem(22);
+    }
+  }
+
+  &__about-text {
+    @media (max-width: 1023px) {
+      max-width: 80%;
+      // display: none;
+    }
+  }
+}

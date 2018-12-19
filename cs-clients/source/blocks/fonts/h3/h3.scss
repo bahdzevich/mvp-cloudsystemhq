@@ -1,0 +1,15 @@
+.h3 {
+  font-size: rem(30);
+  font-weight: 400;
+  // letter-spacing: rem(2);
+  line-height: 1.2;
+  color: $black;
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    font-size: rem(24);
+  }
+
+  @media (max-width: 767px) {
+    font-size: rem(20);
+  }
+}

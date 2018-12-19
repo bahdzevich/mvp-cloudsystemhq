@@ -1,0 +1,56 @@
+.dev-footer {
+  padding: rem(30) 0;
+  background-color: $blueBlack;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url(/assets/images/footer.jpg);
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__logo {
+    display: block;
+    width: rem(150);
+    height: rem(40);
+    margin-bottom: rem(24);
+
+    svg {
+      fill: #fff;
+
+      .logo-hq {
+        fill: $orange;
+      }
+    }
+  }
+
+  &__socials {
+    display: flex;
+    align-items: center;
+    margin-bottom: rem(24);
+  }
+
+  &__social {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: rem(48);
+    height: rem(48);
+    border-radius: 50%;
+    border: 2px solid #fff;
+    margin-right: rem(12);
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+
+  &__copy {
+    width: 100%;
+    text-align: center;
+    color: #fff;
+  }
+}

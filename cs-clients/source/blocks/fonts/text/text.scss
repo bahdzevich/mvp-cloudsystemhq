@@ -1,0 +1,19 @@
+.text {
+  font-size: rem(16);
+  font-weight: 400;
+  line-height: 1.2;
+  color: $black;
+  // letter-spacing: rem(0.4);
+
+  @media (min-width: 1024px) and (max-width: 1273px) {
+    font-size: rem(16.64);
+  }
+
+  @media (max-width: 1023px) {
+    font-size: rem(15);
+  }
+
+  @media (max-width: 767px) {
+    font-size: rem(16);
+  }
+}

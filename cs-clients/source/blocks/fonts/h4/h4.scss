@@ -1,0 +1,14 @@
+.h4 {
+  font-size: rem(24);
+  font-weight: 400;
+  line-height: 1.2;
+  color: black;
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    font-size: rem(18);
+  }
+
+  @media (max-width: 767px) {
+    font-size: rem(16);
+  }
+}

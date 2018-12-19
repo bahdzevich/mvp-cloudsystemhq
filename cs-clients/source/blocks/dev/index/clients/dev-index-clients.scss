@@ -1,0 +1,33 @@
+.dev-index-clients {
+  padding-top: rem(50);
+  padding-bottom: rem(40);
+  background-color: $blueBlack;
+  background-image: url(/assets/images/clients/clients_back.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  @media (max-width: 767px) {
+    padding-top: rem(32);
+  }
+
+  &__content {
+    padding-top: rem(50);
+  }
+
+  &__slider {
+    margin-bottom: rem(20);
+  }
+
+  &__slide {
+    width: 16.67%;
+    height: rem(100);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__pag {
+    margin-top: rem(50);
+  }
+}

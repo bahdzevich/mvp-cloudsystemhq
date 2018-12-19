@@ -1,0 +1,11 @@
+mixin core-btn(tag, text, className, href)
+  - if(tag == 'div') {
+    .core-btn(class=className)
+      span.core-btn__text= text
+  - } else if(tag == 'button') {
+    button.core-btn(class=className)
+      span.core-btn__text= text
+  - } else {
+    a.core-btn(href=tag, class=className)
+      span.core-btn__text= text
+  - }

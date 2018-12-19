@@ -1,0 +1,17 @@
+include ../blocks/core/**/*.pug
+include ../blocks/fonts/**/*.pug
+doctype html
+html(lang='ru')
+  head
+    title Cloud System HQ
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(http-equiv='X-UA-Compatible', content='ie=edge')
+    link(href='./s-images/fav.ico', rel='shortcut icon', type='image/x-icon')
+  body
+    include ../blocks/dev/header/dev-header.pug
+    .page
+      block content
+    include ../blocks/dev/footer/dev-footer.pug
+    include ../blocks/dev/popup/dev-popup.pug
+  script(src='http://cloudsystemhq-news.appspot.com/articlesasjson?maxhours=96&mrss=true&limit=122&callback=window.initSliderNews')

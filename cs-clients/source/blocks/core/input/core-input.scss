@@ -1,0 +1,30 @@
+.core-input {
+  width: 100%;
+  height: rem(50);
+  padding: 0 rem(20);
+  border: 1px solid $pink;
+  color: $black;
+  font-size: rem(16);
+
+  @media (min-width: 1024px) and (max-width: 1273px) {
+    font-size: rem(16.64);
+  }
+
+  &--fail {
+    border-color: red;
+
+    @media (max-width: 767px) {
+      border-width: 2px;
+    }
+  }
+
+  &::placeholder {
+    color: #999;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    border-color: $pink-dark;
+  }
+}

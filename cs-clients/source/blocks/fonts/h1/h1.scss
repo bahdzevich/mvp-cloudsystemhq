@@ -1,0 +1,16 @@
+.h1 {
+  font-size: rem(56);
+  font-weight: 400;
+  line-height: 1.2;
+  color: $black;
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    font-size: rem(48);
+  }
+
+  @media (max-width: 767px) {
+    font-size: rem(31);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+}

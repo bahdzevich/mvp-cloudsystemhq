@@ -1,0 +1,11 @@
+.sprite-symbol-usage {
+  display: block !important;
+}
+
+@import "base/styles/core";
+@import "base/styles/fonts";
+@import "base/styles/vars";
+@import "base/styles/plugins/**/*.scss";
+@import "blocks/fonts/**/*.scss";
+@import "blocks/core/**/*.scss";
+@import "blocks/dev/**/*.scss";

@@ -1,0 +1,20 @@
+{
+  "globals": {
+    "window": true,
+    "document": true,
+    "google": true,
+    "XMLHttpRequest": true,
+    "XDomainRequest": true,
+    "FormData": true,
+    "Power2": true,
+    "Image": true,
+    "CustomEvent": true,
+    "Event": true
+  },
+  "extends": "airbnb-base",
+  "rules": {
+    "linebreak-style": 0,
+    "no-new": 0,
+    "no-underscore-dangle": 0
+  }
+}

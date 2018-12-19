@@ -1,0 +1,44 @@
+@font-face {
+  font-family: 'NeoSansPro';
+  src:
+    url('/assets/fonts/NeoSansPro-Regular.woff') format('woff'),
+    url('/assets/fonts/NeoSansPro-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NeoSansPro';
+  src:
+    url('/assets/fonts/NeoSansPro-Bold.woff') format('woff'),
+    url('/assets/fonts/NeoSansPro-Bold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NeoSansPro';
+  src:
+    url('/assets/fonts/NeoSansPro-Ultra.woff') format('woff'),
+    url('/assets/fonts/NeoSansPro-Ultra.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'NeoSansPro';
+  src:
+    url('/assets/fonts/NeoSansPro-Italic.woff') format('woff'),
+    url('/assets/fonts/NeoSansPro-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'NeoSansPro';
+  src:
+    url('/assets/fonts/NeoSansPro-BoldItalic.woff') format('woff'),
+    url('/assets/fonts/NeoSansPro-BoldItalic.ttf') format('truetype');
+  font-weight: 600;
+  font-style: italic;
+}

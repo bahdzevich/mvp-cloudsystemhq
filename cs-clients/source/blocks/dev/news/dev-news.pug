@@ -1,0 +1,27 @@
+.dev-news
+  +core-head('second title', 'title', 'text', 'dev-news__head')
+  .dev-news__content.main
+    .dev-news__items.swiper-container
+      .swiper-wrapper
+        .dev-news__item.swiper-slide
+          .dev-news__img
+          +text('date', 'dev-news__date')
+          +h4('title', 'dev-news__title')
+          +text('text', 'dev-news__text')
+          a.dev-news__link.text(href='#') More
+        .dev-news__item.swiper-slide
+          .dev-news__img
+          +text('date', 'dev-news__date')
+          +h4('title', 'dev-news__title')
+          +text('text', 'dev-news__text')
+          a.dev-news__link.text(href='#') More
+        .dev-news__item.swiper-slide
+          .dev-news__img
+          +text('date', 'dev-news__date')
+          +h4('title', 'dev-news__title')
+          +text('text', 'dev-news__text')
+          a.dev-news__link.text(href='#') More
+    .dev-news__pag.swiper-pagination
+    a.h4.dev-news__btn
+      span View all
+      span.dev-news__btn-icon

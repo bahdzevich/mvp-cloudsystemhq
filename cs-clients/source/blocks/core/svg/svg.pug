@@ -1,0 +1,3 @@
+mixin svg(name, className)
+  svg(class=className)
+    use(xlink:href=require(`../assets/svg/${name}.svg`).url)

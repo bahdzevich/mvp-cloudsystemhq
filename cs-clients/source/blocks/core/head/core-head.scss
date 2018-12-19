@@ -1,0 +1,62 @@
+.core-head {
+  padding: 0 rem(50);
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    padding: 0 rem(32);
+  }
+
+  @media (max-width: 767px) {
+    padding: 0 rem(12);
+  }
+
+  &__s-title,
+  &__title,
+  &__text {
+    width: 100%;
+    text-align: center;
+  }
+
+  &__s-title {
+    color: $blueBlack;
+  }
+
+  &__title {
+    position: relative;
+    margin-bottom: rem(10);
+    color: $orange;
+
+    &::before {
+      content: '';
+      width: 40%;
+      height: 2px;
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translate(-50%, 0);
+      background-color: $blueBlack;
+
+      @media (max-width: 767px) {
+        width: 60%;
+      }
+    }
+  }
+
+  &__text {
+    color: $blueBlack;
+  }
+
+  &--white {
+    .core-head {
+      &__s-title,
+      &__text {
+        color: #fff;
+      }
+
+      &__title {
+        &::before {
+          background-color: #fff;
+        }
+      }
+    }
+  }
+}

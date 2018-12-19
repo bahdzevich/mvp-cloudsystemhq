@@ -1,0 +1,15 @@
+.h2 {
+  font-size: rem(42);
+  font-weight: 400;
+  line-height: 1.2;
+  color: black;
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    font-size: rem(32);
+  }
+
+  @media (max-width: 767px) {
+    font-size: rem(26);
+    // font-weight: 600;
+  }
+}
