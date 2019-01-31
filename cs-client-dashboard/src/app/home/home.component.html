@@ -1,0 +1,36 @@
+<div class="home-container">
+  <div>
+    <h1>Home</h1>
+  </div>
+
+  <div>
+    <app-question
+      *ngFor="let question of questionnaire"
+      [question]="question"
+      (onSelect)="onSelect(question.id, $event)">
+    </app-question>
+    <div className="button-group">
+
+			<span *ngIf="canGoPrevPage()">
+				<button class="btn btn-secondary" (click)="goToPrevResponses()">Prev</button>
+			</span>
+
+      <span *ngIf="isLastPage(); else nextTemplate">
+        <button
+          class="btn btn-primary"
+          (click)="submitResponses()"
+          [disabled]="!canGoNextPage()">
+          Submit
+        </button>
+        </span>
+        <ng-template #nextTemplate>
+          <button
+            class="btn btn-primary"
+            (click)="goToNextPage()"
+            [disabled]="!canGoNextPage">
+            Next
+          </button>
+        </ng-template>
+    </div>
+  </div>
+</div>

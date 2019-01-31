@@ -1,0 +1,10 @@
+<form>
+  <div *ngFor="let response of responses">
+    <input
+      type="radio"
+      [value]="response.value"
+      [checked]="selectedValue === response.value"
+      (onChange)="handleResponseChange($event)" />
+    {{response.text}}
+  </div>
+</form>

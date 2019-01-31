@@ -1,0 +1,23 @@
+<div class="question-container">
+  <div>
+    <h5>Question title: "{{question.title}}"</h5>
+  </div>
+  <div [ngSwitch]="question.type">
+    <app-response-checkbox
+      *ngSwitchCase="ResponseTypeEnum.CHECKBOX"
+      [responses]="question.responses"
+      [selectedValue]="question.selectedValue",
+      (selectedValueChange)="changeSelected($event)">
+    </app-response-checkbox>
+    <app-response-radio
+      *ngSwitchCase="ResponseTypeEnum.RADIO_BUTTON"
+      [responses]="question.responses"
+      [selectedValue]="question.selectedValue">
+    </app-response-radio>
+    <app-response-text
+      *ngSwitchCase="ResponseTypeEnum.TEXT"
+      [responses]="question.responses"
+      [selectedValue]="question.selectedValue">
+    </app-response-text>
+  </div>
+</div>
