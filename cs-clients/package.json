@@ -9,17 +9,10 @@
     "build": "webpack --env.production=true --progress"
   },
   "dependencies": {
-    "animejs": "^2.2.0",
-    "axios": "^0.18.0",
-    "blazy": "^1.8.2",
     "custom-event-polyfill": "^1.0.6",
-    "gmaps": "^0.4.24",
-    "google-maps": "^3.3.0",
     "gsap": "^1.20.4",
     "imask": "^3.4.0",
-    "mm-jsr": "^1.1.4",
     "perfect-scrollbar": "^1.4.0",
-    "scrollmagic": "^2.0.5",
     "svgxuse": "^1.2.6",
     "swiper": "^4.2.6"
   },

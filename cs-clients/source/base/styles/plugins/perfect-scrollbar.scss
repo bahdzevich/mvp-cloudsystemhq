@@ -34,7 +34,7 @@
 .ps--active-x > .ps__rail-x,
 .ps--active-y > .ps__rail-y {
   display: block;
-  background-color: $pink;
+  background-color: $blueDark;
 
   @media (max-width: 767px) {
     background-color: #dbdbdb;
@@ -58,7 +58,7 @@
 }
 
 .ps__thumb-x {
-  background-color: $pink;
+  background-color: $blueDark;
   transition: background-color 0.2s linear, height 0.2s ease-in-out;
   -webkit-transition: background-color 0.2s linear, height 0.2s ease-in-out;
   height: 4px;
@@ -67,12 +67,12 @@
 
   &:hover,
   &:active {
-    background-color: $pink-dark;
+    background-color: $blueBlack;
   }
 }
 
 .ps__thumb-y {
-  background-color: $pink-dark;
+  background-color: $blueBlack;
   transition: background-color 0.2s linear, width 0.2s ease-in-out;
   -webkit-transition: background-color 0.2s linear, width 0.2s ease-in-out;
   width: 2px;
