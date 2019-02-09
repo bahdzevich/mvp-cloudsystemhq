@@ -1,7 +1,6 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {Question} from '../../models/question';
 import {ResponseTypeEnum} from "../../models/response-type.enum";
-import {QuestionResponse} from "../../models/question-response";
 
 @Component({
   selector: 'app-question',
@@ -22,7 +21,7 @@ export class QuestionComponent implements OnInit {
   ngOnInit() {
   }
 
-  public changeSelected(selected): void {
-
+  public changeSelected(selected: string | Set<string>): void {
+    this.question.selectedValue = selected;
   }
 }

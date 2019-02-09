@@ -21,7 +21,8 @@ export class ResponseTextComponent extends QuestionResponsesComponent<string> im
   }
 
   public handleResponseChange(value: string): void {
-    console.log(value);
+    this.selectedValue = value;
     this.selectedValueChange.emit(value);
+    console.log(value);
   }
 }

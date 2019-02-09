@@ -17,7 +17,7 @@ export default function reduce(state = initialState, action = {}) {
                 currentPageNum: action.state.currentPageNum,
                 canGoPrevPage: action.state.canGoPrevPage,
                 canGoNextPage: false,
-                isLastPage: action.state.isLastPage
+                isLastPage: action.state.lastPage
             });
         case types.HOME_PAGE_DESTRUCTED:
             return state.merge({
@@ -54,5 +54,5 @@ export function canGoNextPage(state) {
 }
 
 export function isLastPage(state) {
-    return state.homePage.isLastPage;
+    return state.homePage.lastPage;
 }

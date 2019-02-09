@@ -16,7 +16,8 @@ export class ResponseRadioComponent extends QuestionResponsesComponent<string> i
   }
 
   public handleResponseChange(value: string): void {
+    this.selectedValue = value;
+    this.selectedValueChange.emit(this.selectedValue);
     console.log(value);
-    this.selectedValueChange.emit(value);
   }
 }

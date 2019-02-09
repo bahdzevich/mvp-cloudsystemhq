@@ -6,7 +6,7 @@ import { QuestionResponsesComponent } from '../question-response/question-respon
   templateUrl: './response-checkbox.component.html',
   styleUrls: ['./response-checkbox.component.scss']
 })
-export class ResponseCheckboxComponent extends QuestionResponsesComponent<string[]> implements OnInit {
+export class ResponseCheckboxComponent extends QuestionResponsesComponent<Set<string>> implements OnInit {
 
   constructor() {
     super();
@@ -15,7 +15,11 @@ export class ResponseCheckboxComponent extends QuestionResponsesComponent<string
   ngOnInit() {
   }
 
-  public handleResponseChange(value){
+  public handleResponseChange(value: string){
+    this.selectedValue.has(value)
+      ? this.selectedValue.delete(value)
+      : this.selectedValue.add(value);
+    this.selectedValueChange.emit(this.selectedValue);
     console.log(value);
   }
 }

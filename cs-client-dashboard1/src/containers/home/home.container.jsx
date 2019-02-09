@@ -40,7 +40,7 @@ class HomeContainer extends Component {
                     goToNextResponses={this.goToNextResponses.bind(this)}
                     canGoPrevPage={this.props.canGoPrevPage}
                     canGoNextPage={this.props.canGoNextPage}
-                    isLastPage={this.props.isLastPage}
+                    isLastPage={this.props.lastPage}
                     submitResponses={this.submitResponses.bind(this)}
                 >
                 </QuestionnairePageComponent>

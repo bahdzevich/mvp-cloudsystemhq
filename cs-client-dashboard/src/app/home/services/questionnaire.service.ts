@@ -2,11 +2,12 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {ReplaySubject} from "rxjs/internal/ReplaySubject";
 
 import {Question} from '../models/question';
 import {QuestionDto} from '../models/question-dto';
+import {QuestionnairePageDto} from "../models/questionnaire-page-dto";
 
 @Injectable()
 export class QuestionnaireService {
@@ -15,6 +16,8 @@ export class QuestionnaireService {
 
   private currentPage: ReplaySubject<Question[]> = new ReplaySubject<Question[]>(1);
   private pages: Array<Question[]> = [];
+
+  public isLastPage: boolean = false;
 
   constructor(
     private http: HttpClient
@@ -44,12 +47,14 @@ export class QuestionnaireService {
   public loadPrevPage(): void {
     this.pages.pop();
     this.currentPage.next(this.pages[this.pages.length - 1]);
+    this.isLastPage = false;
   }
 
   private loadPage(pageNumber: number): Observable<Question[]> {
-    return this.http.get<QuestionDto[]>(QuestionnaireService.LOAD_QUESTION_PAGE_QUERY + pageNumber).pipe(
-      map((dtos: QuestionDto[]) => {
-        return dtos.map((dto: QuestionDto) => Question.fromDTO(dto));
+    return this.http.get<QuestionnairePageDto>(QuestionnaireService.LOAD_QUESTION_PAGE_QUERY + pageNumber).pipe(
+      tap((dto: QuestionnairePageDto) => this.isLastPage = dto.lastPage),
+      map((pageDto: QuestionnairePageDto) => {
+        return pageDto.questions.map((dto: QuestionDto) => Question.fromDTO(dto));
       }));
   }
 

@@ -10,7 +10,7 @@ export class Question {
       dto.responses.map(resp => QuestionResponse.fromDTO(resp)),
       dto.title,
       dto.type,
-      dto.type == ResponseTypeEnum.TEXT ? '' : []
+      dto.type == ResponseTypeEnum.CHECKBOX ? new Set<string>() : ''
     );
   }
 
@@ -19,7 +19,7 @@ export class Question {
     public responses: QuestionResponse[],
     public title: string,
     public type: ResponseTypeEnum,
-    public selectedValue: string | string[]
+    public selectedValue: string | Set<string>
   ) {
   }
 }

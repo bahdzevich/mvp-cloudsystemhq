@@ -6,6 +6,7 @@ import {ResponseCheckboxComponent} from "./components/responses/response-checkbo
 import {ResponseRadioComponent} from "./components/responses/response-radio/response-radio.component";
 import {ResponseTextComponent} from "./components/responses/response-text/response-text.component";
 import {QuestionnaireService} from "./services/questionnaire.service";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import {QuestionnaireService} from "./services/questionnaire.service";
     ResponseTextComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   providers: [
     QuestionnaireService

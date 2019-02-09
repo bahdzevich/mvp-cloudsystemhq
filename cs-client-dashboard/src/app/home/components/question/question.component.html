@@ -6,18 +6,20 @@
     <app-response-checkbox
       *ngSwitchCase="ResponseTypeEnum.CHECKBOX"
       [responses]="question.responses"
-      [selectedValue]="question.selectedValue",
+      [selectedValue]="question.selectedValue"
       (selectedValueChange)="changeSelected($event)">
     </app-response-checkbox>
     <app-response-radio
       *ngSwitchCase="ResponseTypeEnum.RADIO_BUTTON"
       [responses]="question.responses"
-      [selectedValue]="question.selectedValue">
+      [selectedValue]="question.selectedValue"
+      (selectedValueChange)="changeSelected($event)">
     </app-response-radio>
     <app-response-text
       *ngSwitchCase="ResponseTypeEnum.TEXT"
       [responses]="question.responses"
-      [selectedValue]="question.selectedValue">
+      [selectedValue]="question.selectedValue"
+      (selectedValueChange)="changeSelected($event)">
     </app-response-text>
   </div>
 </div>

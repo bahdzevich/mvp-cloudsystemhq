@@ -1,10 +1,10 @@
 <form>
-  <div *ngFor="let response of responses">
+  <div *ngFor="let response of responses; let index = index">
     <input
       type="checkbox"
       [value]="response.value"
-      [checked]="selectedValue.includes(response.value)"
-      (onChange)="handleResponseChange($event)" />
+      [checked]="selectedValue.has(response.value)"
+      (change)="handleResponseChange($event.target.value)" />
     {{response.text}}
   </div>
 </form>

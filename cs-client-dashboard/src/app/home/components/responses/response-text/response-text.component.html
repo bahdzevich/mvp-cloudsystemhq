@@ -4,6 +4,6 @@
   </div>
   <input
     type="text"
-    [value]="responseValue"
-    (onChange)="handleResponseChange($event)" />
+    [ngModel]="selectedValue"
+    (ngModelChange)="handleResponseChange($event)" />
 </div>

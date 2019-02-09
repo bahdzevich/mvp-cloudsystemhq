@@ -3,6 +3,7 @@ package com.cloudsystemhq.controller.rest;
 import com.cloudsystemhq.model.domain.Question;
 import com.cloudsystemhq.model.domain.QuestionType;
 import com.cloudsystemhq.model.domain.Response;
+import com.cloudsystemhq.model.dto.response.QuestionnairePageDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +36,11 @@ public class TestQuestionnaireController {
     }
 
     @GetMapping(value = "/page/{num}")
-    public ResponseEntity<List<Question>> loadQuestionnairePage(@PathVariable("num") Integer num) {
-        return new ResponseEntity<>(this.questionnaire.get(num), HttpStatus.OK);
+    public ResponseEntity<QuestionnairePageDto> loadQuestionnairePage(@PathVariable("num") Integer num) {
+        QuestionnairePageDto dto = new QuestionnairePageDto();
+        dto.setQuestions(this.questionnaire.get(num));
+        dto.setLastPage(num == 2);
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @GetMapping(value = "/full")

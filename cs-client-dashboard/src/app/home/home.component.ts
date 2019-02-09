@@ -59,7 +59,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public isLastPage(): boolean {
-    return false;
+    return this.questionnaireService.isLastPage;
   }
 
   public onSelect(questionId: number, responseId: string | number): void {
