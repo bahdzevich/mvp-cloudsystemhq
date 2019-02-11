@@ -20,6 +20,17 @@ spring:
   output:
     ansi:
       enabled: always
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: garbagebin322@gmail.com
+#    password: nofwohuysqwtzlvj
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
 security:
   oauth2:
     resource:
@@ -43,3 +54,7 @@ otpprovider:
     key: textbelt
     sendOtpUri: otp/generate
     verifyOtpUri: otp/verify
+
+email:
+  from: info@cloudsystemhq.com
+  apikey: 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

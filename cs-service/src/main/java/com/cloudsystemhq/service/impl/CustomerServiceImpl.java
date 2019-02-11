@@ -7,6 +7,7 @@ import com.cloudsystemhq.repository.CustomerRepository;
 import com.cloudsystemhq.security.service.CustomerRegistrationService;
 import com.cloudsystemhq.security.service.EntityAlreadyExistsException;
 import com.cloudsystemhq.service.ICustomerService;
+import com.cloudsystemhq.service.IEmailService;
 import com.cloudsystemhq.service.IOtpService;
 import com.cloudsystemhq.service.ISmsProviderService;
 import com.cloudsystemhq.service.smsApi.BaseResponse;
@@ -32,19 +33,22 @@ public class CustomerServiceImpl
   private final ISmsProviderService smsProviderService;
   private final IOtpService otpService;
   private final CustomerRepository customerRepository;
+  private final IEmailService emailService;
 
   public CustomerServiceImpl(
       CustomerRepository repository,
       CustomerMapper mapper,
       CustomerRegistrationService registrationService,
       ISmsProviderService smsProviderService,
-      IOtpService otpService
+      IOtpService otpService,
+      IEmailService emailService
   ) {
     super(repository, mapper);
     this.customerRepository = repository;
     this.registrationService = registrationService;
     this.smsProviderService = smsProviderService;
     this.otpService = otpService;
+    this.emailService = emailService;
   }
 
   @Override
@@ -53,6 +57,8 @@ public class CustomerServiceImpl
     Assert.notNull(customerRequestDto, "Admin is null.");
     Customer savedCustomer = registrationService
         .createCustomer(mapper.convertToEntity(customerRequestDto));
+    emailService.sendWelcomeMessage(savedCustomer.getEmail(), "Registration in CloudSystemHQ",
+        savedCustomer.getName());
     return mapper.convertToDto(savedCustomer);
   }
 

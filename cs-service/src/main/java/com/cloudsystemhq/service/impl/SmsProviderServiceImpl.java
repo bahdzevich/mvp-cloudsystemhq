@@ -56,7 +56,6 @@ public class SmsProviderServiceImpl implements ISmsProviderService {
 
   @Override
   public SentSms sendSmsToCustomer(String customerNumber, String message) {
-    // ToDO: format customerNumber string
     return restTemplate.getForObject(
         UriComponentsBuilder
             .fromHttpUrl(providerUri)
@@ -73,7 +72,6 @@ public class SmsProviderServiceImpl implements ISmsProviderService {
 
   @Override
   public SmsList getRecentCustomersSms(String customerNumber) {
-    // ToDO: format customerNumber string
     String smsDateFrom = LocalDateTime.now()
         .minusMinutes(15)
         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));

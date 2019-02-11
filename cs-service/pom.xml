@@ -4,6 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
   <properties>
     <lombok.version>1.16.18</lombok.version>
+    <httpclient.version>4.3.4</httpclient.version>
+    <configuration.processor.version>2.0.6.RELEASE</configuration.processor.version>
+    <starter.mail.version>2.0.1.RELEASE</starter.mail.version>
+    <libphonenumber.version>8.10.2</libphonenumber.version>
+    <sendgrid.version>4.2.0</sendgrid.version>
+    <sendgrid.java.version>4.3.0</sendgrid.java.version>
+    <httpclient.version>4.5.2</httpclient.version>
+    <httpcore.version>4.4.4</httpcore.version>
   </properties>
 
     <artifactId>cs-service</artifactId>
@@ -25,21 +33,44 @@
             <artifactId>cs-security</artifactId>
             <version>${project.version}</version>
         </dependency>
+      <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-configuration-processor -->
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.3.4</version>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-configuration-processor</artifactId>
+          <version>${configuration.processor.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-configuration-processor -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <version>2.0.6.RELEASE</version>
-        </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-thymeleaf</artifactId>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/com.sendgrid/sendgrid-java -->
+      <dependency>
+        <groupId>com.sendgrid</groupId>
+        <artifactId>java-http-client</artifactId>
+        <version>${sendgrid.version}</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/com.sendgrid/sendgrid-java -->
+      <dependency>
+        <groupId>com.sendgrid</groupId>
+        <artifactId>sendgrid-java</artifactId>
+        <version>${sendgrid.java.version}</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpclient</artifactId>
+        <version>${httpclient.version}</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpcore -->
+      <dependency>
+        <groupId>org.apache.httpcomponents</groupId>
+        <artifactId>httpcore</artifactId>
+        <version>${httpcore.version}</version>
+      </dependency>
       <dependency>
         <groupId>com.googlecode.libphonenumber</groupId>
         <artifactId>libphonenumber</artifactId>
-        <version>8.10.2</version>
+        <version>${libphonenumber.version}</version>
       </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
